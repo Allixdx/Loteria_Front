@@ -12,7 +12,13 @@ export class LoteriaService {
 
   constructor(private http: HttpClient) { }
 
-  getResultados(): Observable<any> {
-    return this.http.get<any>(this.apiUrl);
+  // Crear una sala
+  createRoom(): Observable<any> {
+    return this.http.post(`${this.apiUrl}/create-room`, {});
+  }
+
+  // Unirse a una sala
+  joinRoom(codigo: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/join-room`, { codigo });
   }
 }

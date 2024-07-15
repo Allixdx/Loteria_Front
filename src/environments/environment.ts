@@ -1,5 +1,4 @@
 export const environment = {
-    production: false,
-    apiUrl: 'http://127.0.0.1:3333'
+    apiUrl: 'http://127.0.0.1:3333',
+    wsUrl: 'ws://192.168.122.154:3333'
   };
-  
