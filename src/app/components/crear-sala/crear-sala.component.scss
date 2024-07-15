@@ -1,0 +1,26 @@
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  
+  mat-card {
+    width: 70%; /* El contenedor ocupará el 70% de la pantalla */
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centrar contenido verticalmente */
+  }
+  
+  .actions {
+    margin: 20px 0; /* Espacio entre el título y los botones */
+    display: flex;
+    gap: 20px; /* Espacio entre los botones */
+  }
+  
+  .jugadores {
+    margin-top: 20px; /* Espacio superior para la lista de jugadores */
+    width: 100%;
+  }
+  

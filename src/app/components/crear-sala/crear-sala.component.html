@@ -1,0 +1,16 @@
+<div class="container">
+    <mat-card>
+      <h2>Código de sala (se genera en el backend): {{ codigoSala }}</h2>
+      <div class="actions">
+        <button mat-raised-button color="primary" (click)="iniciarPartida()">Iniciar Partida</button>
+        <button mat-raised-button color="warn" (click)="cerrarSala()">Cerrar Sala</button>
+      </div>
+      <div class="jugadores">
+        <h3>Jugadores que se han unido:</h3>
+        <ul>
+          <li *ngFor="let jugador of jugadores">{{ jugador }}</li>
+        </ul>
+      </div>
+    </mat-card>
+  </div>
+  
