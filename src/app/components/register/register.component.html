@@ -1,0 +1,39 @@
+<div class="container">
+    <mat-card>
+      <h2>Registro</h2>
+      <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+        <mat-form-field class="full-width">
+          <mat-label>Nombre</mat-label>
+          <input matInput id="nombre" formControlName="nombre">
+          <mat-error *ngIf="registerForm.get('nombre')?.invalid && (registerForm.get('nombre')?.touched || registerForm.get('nombre')?.dirty)">
+            <small class="text-danger" *ngIf="registerForm.get('nombre')?.errors?.['required']">El nombre es requerido.</small>
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="full-width">
+          <mat-label>Correo Electrónico</mat-label>
+          <input matInput id="email" type="email" formControlName="email">
+          <mat-error *ngIf="registerForm.get('email')?.invalid && (registerForm.get('email')?.touched || registerForm.get('email')?.dirty)">
+            <small class="text-danger" *ngIf="registerForm.get('email')?.errors?.['required']">El correo es requerido.</small>
+            <small class="text-danger" *ngIf="registerForm.get('email')?.errors?.['email']">Formato de correo inválido.</small>
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="full-width">
+          <mat-label>Contraseña</mat-label>
+          <input matInput id="password" type="password" formControlName="password">
+          <mat-error *ngIf="registerForm.get('password')?.invalid && (registerForm.get('password')?.touched || registerForm.get('password')?.dirty)">
+            <small class="text-danger" *ngIf="registerForm.get('password')?.errors?.['required']">La contraseña es requerida.</small>
+            <small class="text-danger" *ngIf="registerForm.get('password')?.errors?.['minlength']">La contraseña debe tener al menos 6 caracteres.</small>
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="full-width">
+          <mat-label>Confirmar Contraseña</mat-label>
+          <input matInput id="confirmarPassword" type="password" formControlName="confirmarPassword">
+          <mat-error *ngIf="registerForm.errors?.['mismatch'] && (registerForm.get('confirmarPassword')?.touched || registerForm.get('confirmarPassword')?.dirty)">
+            <small class="text-danger">Las contraseñas no coinciden.</small>
+          </mat-error>
+        </mat-form-field>
+        <button mat-raised-button color="primary" type="submit" [disabled]="registerForm.invalid">Registrarse</button>
+      </form>
+    </mat-card>
+  </div>
+  
