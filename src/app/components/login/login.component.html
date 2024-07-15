@@ -1,0 +1,23 @@
+<div class="container">
+    <mat-card>
+      <h2>Iniciar sesión</h2>
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <mat-form-field class="full-width">
+          <mat-label>Identifier</mat-label>
+          <input matInput id="identifier" type="identifier" formControlName="identifier">
+          <mat-error *ngIf="loginForm.get('identifier')?.invalid && (loginForm.get('identifier')?.touched || loginForm.get('identifier')?.dirty)">
+            <small class="text-danger" *ngIf="loginForm.get('identifier')?.errors?.['required']">El identifier es requerido.</small>
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="full-width">
+          <mat-label>Contraseña</mat-label>
+          <input matInput id="password" type="password" formControlName="password">
+          <mat-error *ngIf="loginForm.get('password')?.invalid && (loginForm.get('password')?.touched || loginForm.get('password')?.dirty)">
+            <small class="text-danger" *ngIf="loginForm.get('password')?.errors?.['required']">La contraseña es requerida.</small>
+          </mat-error>
+        </mat-form-field>
+        <button mat-raised-button color="primary" type="submit">Iniciar sesión</button>
+      </form>
+    </mat-card>
+  </div>
+  

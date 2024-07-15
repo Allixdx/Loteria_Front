@@ -10,6 +10,13 @@
           </mat-error>
         </mat-form-field>
         <mat-form-field class="full-width">
+            <mat-label>Apellido</mat-label>
+            <input matInput id="apellido" formControlName="apellido">
+            <mat-error *ngIf="registerForm.get('apellido')?.invalid && (registerForm.get('apellido')?.touched || registerForm.get('apellido')?.dirty)">
+              <small class="text-danger" *ngIf="registerForm.get('apellido')?.errors?.['required']">El apellido es requerido.</small>
+            </mat-error>
+          </mat-form-field>
+        <mat-form-field class="full-width">
           <mat-label>Correo Electrónico</mat-label>
           <input matInput id="email" type="email" formControlName="email">
           <mat-error *ngIf="registerForm.get('email')?.invalid && (registerForm.get('email')?.touched || registerForm.get('email')?.dirty)">
@@ -32,7 +39,7 @@
             <small class="text-danger">Las contraseñas no coinciden.</small>
           </mat-error>
         </mat-form-field>
-        <button mat-raised-button color="primary" type="submit" [disabled]="registerForm.invalid">Registrarse</button>
+        <button mat-raised-button color="primary" type="submit">Registrarse</button>
       </form>
     </mat-card>
   </div>
