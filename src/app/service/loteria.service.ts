@@ -49,4 +49,12 @@ export class LoteriaService {
   getCodigoSala(): string | null {
     return this.codigoSala;
   }
+
+  joinRoom(codigo: string): Observable<any> {
+    const token = this.cookieService.get('token');
+    const headers = { Authorization: `Bearer ${token}` };
+  
+    return this.http.post(`${this.apiUrl}/rooms/join`, { codigo }, { headers });
+  }
+  
 }

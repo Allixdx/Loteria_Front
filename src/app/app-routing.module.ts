@@ -4,12 +4,14 @@ import { RegisterComponent } from './components/register/register.component'
 import { LoginComponent } from './components/login/login.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { CrearSalaComponent } from './components/crear-sala/crear-sala.component';
+import { UnirseSalaComponent } from './components/unirse-sala/unirse-sala.component';
 
 const routes: Routes = [
   { path: 'registro', component: RegisterComponent },
   { path: 'login', component: LoginComponent },
   { path: 'dashboard', component: DashboardComponent },
   { path: 'crearSala', component: CrearSalaComponent },
+  { path: 'unirseSala', component: UnirseSalaComponent },
 ];
 
 @NgModule({

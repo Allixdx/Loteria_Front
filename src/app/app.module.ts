@@ -21,7 +21,8 @@ import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 import { environment } from 'src/environments/environment';
 import { CrearSalaComponent } from './components/crear-sala/crear-sala.component';
 import {CookieService} from 'ngx-cookie-service';
-import { HttpClientModule } from '@angular/common/http'; 
+import { HttpClientModule } from '@angular/common/http';
+import { UnirseSalaComponent } from './components/unirse-sala/unirse-sala.component'; 
 
 
 const socketConfig: SocketIoConfig = {
@@ -35,7 +36,8 @@ const socketConfig: SocketIoConfig = {
     RegisterComponent,
     LoginComponent,
     DashboardComponent,
-    CrearSalaComponent
+    CrearSalaComponent,
+    UnirseSalaComponent
   ],
   imports: [
     BrowserModule,

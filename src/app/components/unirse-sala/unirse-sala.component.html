@@ -1,0 +1,19 @@
+<div class="container">
+    <mat-card>
+      <h2 style="font-size: 30px; padding: 30px;">Unirse a una Sala</h2>
+      <form [formGroup]="joinRoomForm" (ngSubmit)="onSubmit()">
+        <mat-form-field class="full-width">
+            <mat-label>Código de Sala</mat-label>
+            <input matInput id="codigo" formControlName="codigo" required>
+            <mat-error *ngIf="joinRoomForm.get('codigo')?.invalid && (joinRoomForm.get('codigo')?.touched || joinRoomForm.get('codigo')?.dirty)">
+              <small class="text-danger" *ngIf="joinRoomForm.get('codigo')?.errors?.['required']">El código de sala es requerido.</small>
+            </mat-error>
+          </mat-form-field>          
+        <div *ngIf="errorMessage" class="error-message">
+          <small class="text-danger">{{ errorMessage }}</small>
+        </div>   
+        <button mat-raised-button color="primary" type="submit">Unirse a la Sala</button>
+      </form>
+    </mat-card>
+  </div>
+  
