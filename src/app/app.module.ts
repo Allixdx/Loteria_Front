@@ -14,6 +14,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
+import { MatListModule } from '@angular/material/list';
 
 // Socket.io Module
 import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
@@ -47,7 +48,8 @@ const socketConfig: SocketIoConfig = {
     MatIconModule,
     MatCardModule,
     SocketIoModule.forRoot(socketConfig),
-    HttpClientModule
+    HttpClientModule,
+    MatListModule
   ],
   providers: [CookieService],
   bootstrap: [AppComponent]

@@ -11,6 +11,7 @@ export class LoteriaService {
 
   private apiUrl = environment.apiUrl;
   private token: string | null = null;
+  private codigoSala: string | null = null; 
 
   constructor(private http: HttpClient, private cookieService: CookieService) { }
 
@@ -20,19 +21,32 @@ export class LoteriaService {
 
   login(email: string, password: string): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/login`, { email, password })
-    .pipe(
-      tap(response => {
-        if (response.token) {
-          this.cookieService.set('token', response.token);
-          this.token = response.token;
-        }
+      .pipe(
+        tap(response => {
+          if (response.token) {
+            const tokenValue = response.token.token;
+            this.cookieService.set('token', tokenValue);
+            this.token = tokenValue;
+            console.log(`Token recibido: ${tokenValue}`);
+          }
+        })
+      );
+  }
+
+  createRoom(): Observable<any> {
+    const token = this.cookieService.get('token');
+    console.log(token);
+    const headers = { Authorization: `Bearer ${token}` };
+  
+    return this.http.post<any>(`${this.apiUrl}/rooms`, {}, { headers }).pipe(
+      map((response: any) => {
+        this.codigoSala = response.codigo;
+        return this.codigoSala;
       })
     );
   }
 
-  createRoom(): Observable<any> {
-    return this.http.post(`${this.apiUrl}/rooms`, {}).pipe(
-      map((response: any) => response.codigo)
-    );
+  getCodigoSala(): string | null {
+    return this.codigoSala;
   }
 }
