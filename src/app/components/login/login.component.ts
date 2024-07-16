@@ -1,16 +1,19 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { LoteriaService } from 'src/app/service/loteria.service';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent implements OnInit{
+export class LoginComponent implements OnInit {
 
   loginForm: FormGroup;
+  errorMessage: string | null = null;
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private loteriaService: LoteriaService, private router: Router) {
     this.loginForm = this.fb.group({
       identifier: ['', Validators.required],
       password: ['', [Validators.required, Validators.minLength(6)]],
@@ -21,8 +24,17 @@ export class LoginComponent implements OnInit{
 
   onSubmit() {
     if (this.loginForm.valid) {
-      // Aquí puedes manejar el envío del formulario al backend
-      console.log('Formulario enviado', this.loginForm.value);
+      this.loteriaService.login(this.loginForm.value.identifier, this.loginForm.value.password)
+        .subscribe({
+          next: (response) => {
+            console.log('Login exitoso', response);
+            this.router.navigate(['/dashboard']);
+          },
+          error: (error) => {
+            this.errorMessage = 'Por favor, verifica tus credenciales.';
+            console.error('Error en el login', error);
+          }
+        });
     }
   }
 }

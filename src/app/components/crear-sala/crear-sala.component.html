@@ -1,0 +1,14 @@
+<div class="crear-sala">
+    <h2>El código de la sala es: {{ codigoSala }}</h2>
+  
+    <div class="jugadores">
+      <h3>Jugadores en la sala:</h3>
+      <ul>
+        <li *ngFor="let jugador of jugadores">{{ jugador }}</li>
+      </ul>
+    </div>
+  
+    <button (click)="iniciarPartida()">Iniciar Partida</button>
+    <button (click)="cerrarSala()">Cerrar Sala</button>
+  </div>
+  

@@ -16,6 +16,9 @@
             <small class="text-danger" *ngIf="loginForm.get('password')?.errors?.['required']">La contraseña es requerida.</small>
           </mat-error>
         </mat-form-field>
+        <div *ngIf="errorMessage" class="error-message">
+          <small class="text-danger">{{ errorMessage }}</small>
+        </div>   
         <button mat-raised-button color="primary" type="submit">Iniciar sesión</button>
       </form>
     </mat-card>

@@ -18,6 +18,10 @@ import { MatCardModule } from '@angular/material/card';
 // Socket.io Module
 import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 import { environment } from 'src/environments/environment';
+import { CrearSalaComponent } from './components/crear-sala/crear-sala.component';
+import {CookieService} from 'ngx-cookie-service';
+import { HttpClientModule } from '@angular/common/http'; 
+
 
 const socketConfig: SocketIoConfig = {
   url: environment.wsUrl,
@@ -29,7 +33,8 @@ const socketConfig: SocketIoConfig = {
     AppComponent,
     RegisterComponent,
     LoginComponent,
-    DashboardComponent
+    DashboardComponent,
+    CrearSalaComponent
   ],
   imports: [
     BrowserModule,
@@ -41,9 +46,10 @@ const socketConfig: SocketIoConfig = {
     MatFormFieldModule,
     MatIconModule,
     MatCardModule,
-    SocketIoModule.forRoot(socketConfig)
+    SocketIoModule.forRoot(socketConfig),
+    HttpClientModule
   ],
-  providers: [],
+  providers: [CookieService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
