@@ -6,25 +6,15 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class SocketService {
-  constructor(private socket: Socket) { 
-    this.socket.on('connect', () => {
-      console.log('Socket conectado');
-    });
-  }
-  
 
-  joinRoom(codigo: string): void {
-    this.socket.emit('joinRoom', { codigo });
+  constructor(private socket: Socket) { }
+
+  connect(): void {
+    this.socket.connect();
   }
 
-  public onPlayerJoined(callback: (data: any) => void) {
-    this.socket.on('jugadorUnido', callback);
-    console.log("aaaa")
-  }
-
-
-  onRoomCreated(): Observable<any> {
-    return this.socket.fromEvent('roomCreated');
+  disconnect(): void {
+    this.socket.disconnect();
   }
 
 }
