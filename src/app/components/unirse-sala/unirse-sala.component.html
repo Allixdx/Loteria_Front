@@ -1,19 +1,34 @@
 <div class="container">
+  <div *ngIf="!unido">
     <mat-card>
       <h2 style="font-size: 30px; padding: 30px;">Unirse a una Sala</h2>
       <form [formGroup]="joinRoomForm" (ngSubmit)="onSubmit()">
         <mat-form-field class="full-width">
-            <mat-label>Código de Sala</mat-label>
-            <input matInput id="codigo" formControlName="codigo" required>
-            <mat-error *ngIf="joinRoomForm.get('codigo')?.invalid && (joinRoomForm.get('codigo')?.touched || joinRoomForm.get('codigo')?.dirty)">
-              <small class="text-danger" *ngIf="joinRoomForm.get('codigo')?.errors?.['required']">El código de sala es requerido.</small>
-            </mat-error>
-          </mat-form-field>          
+          <mat-label>Código de Sala</mat-label>
+          <input matInput id="codigo" formControlName="codigo" required>
+          <mat-error *ngIf="joinRoomForm.get('codigo')?.invalid && (joinRoomForm.get('codigo')?.touched || joinRoomForm.get('codigo')?.dirty)">
+            <small class="text-danger" *ngIf="joinRoomForm.get('codigo')?.errors?.['required']">El código de sala es requerido.</small>
+          </mat-error>
+        </mat-form-field>
         <div *ngIf="errorMessage" class="error-message">
           <small class="text-danger">{{ errorMessage }}</small>
-        </div>   
+        </div>
         <button mat-raised-button color="primary" type="submit">Unirse a la Sala</button>
       </form>
     </mat-card>
   </div>
-  
+
+  <div *ngIf="unido">
+    <mat-card>
+      <h2 style="font-size: 30px; padding: 30px;">Espera a que el anfitrión comience la ronda</h2>
+      <div class="jugadores">
+        <h3>Jugadores en la sala:</h3>
+        <mat-list>
+          <mat-list-item *ngFor="let jugador of jugadores">
+            {{ jugador.email }}
+          </mat-list-item>
+        </mat-list>
+      </div>
+    </mat-card>
+  </div>
+</div>
