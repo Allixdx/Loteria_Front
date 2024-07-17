@@ -17,4 +17,13 @@ export class SocketService {
     this.socket.disconnect();
   }
 
+  emitJugadorUnido(data: any): void {
+    console.log("emittiendo el de jugadorUnido")
+    this.socket.emit('jugadorUnido', data);
+  }
+
+  onJugadorUnido(): Observable<any> {
+    console.log("escuchando lo de el de jugadorUnido")
+    return this.socket.fromEvent('jugadorUnido');
+  }
 }
