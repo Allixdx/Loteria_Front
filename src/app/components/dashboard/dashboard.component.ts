@@ -14,15 +14,6 @@ export class DashboardComponent {
   constructor(private loteriaService: LoteriaService, private router: Router) {}
 
   crearSala() {
-    this.loteriaService.createRoom().subscribe({
-      next: (codigo) => {
-        this.codigoSala = codigo;
-        console.log(`Sala creada con el código: ${codigo}`);
-        this.router.navigate(['/crearSala', { codigo: codigo }]);
-      },
-      error: (error) => {
-        console.error('Error al crear la sala', error);
-      }
-    });
+        this.router.navigate(['/crearSala']);
   }
 }

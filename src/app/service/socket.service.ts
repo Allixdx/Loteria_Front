@@ -6,8 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class SocketService {
-
-  constructor(private socket: Socket) { }
+  constructor(private socket: Socket) {}
 
   connect(): void {
     this.socket.connect();
@@ -18,12 +17,10 @@ export class SocketService {
   }
 
   emitJugadorUnido(data: any): void {
-    console.log("emittiendo el de jugadorUnido")
     this.socket.emit('jugadorUnido', data);
   }
 
-  onJugadorUnido(): Observable<any> {
-    console.log("escuchando lo de el de jugadorUnido")
-    return this.socket.fromEvent('jugadorUnido');
+  onActualizarJugadores(): Observable<any> {
+    return this.socket.fromEvent('actualizarJugadores');
   }
 }

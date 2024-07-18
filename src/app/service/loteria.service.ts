@@ -10,8 +10,6 @@ import { CookieService } from 'ngx-cookie-service';
 export class LoteriaService {
 
   private apiUrl = environment.apiUrl;
-  private token: string | null = null;
-  private codigoSala: string | null = null; 
 
   constructor(private http: HttpClient, private cookieService: CookieService) { }
 
@@ -26,7 +24,6 @@ export class LoteriaService {
           if (response.token) {
             const tokenValue = response.token.token;
             this.cookieService.set('token', tokenValue);
-            this.token = tokenValue;
             console.log(`Token recibido: ${tokenValue}`);
           }
         })
@@ -35,26 +32,29 @@ export class LoteriaService {
 
   createRoom(): Observable<any> {
     const token = this.cookieService.get('token');
-    console.log(token);
     const headers = { Authorization: `Bearer ${token}` };
-  
     return this.http.post<any>(`${this.apiUrl}/rooms`, {}, { headers }).pipe(
       map((response: any) => {
-        this.codigoSala = response.codigo;
-        return this.codigoSala;
+        return {
+          codigoSala: response.room.codigo,
+          roomId: response.id
+        };
       })
     );
-  }
-
-  getCodigoSala(): string | null {
-    return this.codigoSala;
   }
 
   joinRoom(codigo: string): Observable<any> {
     const token = this.cookieService.get('token');
     const headers = { Authorization: `Bearer ${token}` };
-  
+
     return this.http.post(`${this.apiUrl}/rooms/join`, { codigo }, { headers });
   }
-  
+
+  getUser(): Observable<any> {
+    const token = this.cookieService.get('token');
+    const headers = { Authorization: `Bearer ${token}` };
+
+    return this.http.get(`${this.apiUrl}/user`, { headers });
+  }
+
 }

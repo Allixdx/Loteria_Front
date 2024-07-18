@@ -23,7 +23,7 @@ export class UnirseSalaComponent implements OnInit, OnDestroy {
   userData: any | null = null;
   unido: boolean = false;
   jugadores: Player[] = [];
-  private jugadorUnidoSubscription: Subscription;
+  private actualizarPlayer: Subscription;
 
   constructor(
     private fb: FormBuilder, 
@@ -34,10 +34,15 @@ export class UnirseSalaComponent implements OnInit, OnDestroy {
     this.joinRoomForm = this.fb.group({
       codigo: ['', Validators.required]
     });
-    this.jugadorUnidoSubscription = new Subscription();
+    this.actualizarPlayer = new Subscription();
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.actualizarPlayer = this.socketService.onActualizarJugadores().subscribe((players: Player[]) => {
+      this.jugadores = players;
+      console.log('Jugadores actualizados:', this.jugadores);
+    });
+  }
 
   onSubmit() {
     if (this.joinRoomForm.valid) {
@@ -53,14 +58,8 @@ export class UnirseSalaComponent implements OnInit, OnDestroy {
           };
           console.log(this.userData);
           this.socketService.connect();
-          this.emitJugadorUnido();
+          this.socketService.emitJugadorUnido(this.userData);
           this.unido = true;
-
-          // Suscribirse al evento de jugador unido
-          this.jugadorUnidoSubscription = this.socketService.onJugadorUnido().subscribe((data: Player) => {
-            this.jugadores.push(data);
-            console.log('Jugador unido:', data);
-          });
         },
         error: (err) => {
           console.error('Error:', err);
@@ -70,12 +69,8 @@ export class UnirseSalaComponent implements OnInit, OnDestroy {
     }
   }
 
-  emitJugadorUnido(): void {
-    this.socketService.emitJugadorUnido(this.userData);
-  }
-
   ngOnDestroy(): void {
-    this.jugadorUnidoSubscription.unsubscribe();
+    this.actualizarPlayer.unsubscribe();
     this.socketService.disconnect();
   }
 }
