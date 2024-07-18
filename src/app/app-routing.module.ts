@@ -5,6 +5,7 @@ import { LoginComponent } from './components/login/login.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { CrearSalaComponent } from './components/crear-sala/crear-sala.component';
 import { UnirseSalaComponent } from './components/unirse-sala/unirse-sala.component';
+import { LoteriaComponent } from './components/loteria/loteria.component';
 
 const routes: Routes = [
   { path: 'registro', component: RegisterComponent },
@@ -12,6 +13,7 @@ const routes: Routes = [
   { path: 'dashboard', component: DashboardComponent },
   { path: 'crearSala', component: CrearSalaComponent },
   { path: 'unirseSala', component: UnirseSalaComponent },
+  { path: 'loteria', component: LoteriaComponent },
 ];
 
 @NgModule({

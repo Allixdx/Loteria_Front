@@ -22,7 +22,8 @@ import { environment } from 'src/environments/environment';
 import { CrearSalaComponent } from './components/crear-sala/crear-sala.component';
 import {CookieService} from 'ngx-cookie-service';
 import { HttpClientModule } from '@angular/common/http';
-import { UnirseSalaComponent } from './components/unirse-sala/unirse-sala.component'; 
+import { UnirseSalaComponent } from './components/unirse-sala/unirse-sala.component';
+import { LoteriaComponent } from './components/loteria/loteria.component'; 
 
 
 const socketConfig: SocketIoConfig = {
@@ -37,7 +38,8 @@ const socketConfig: SocketIoConfig = {
     LoginComponent,
     DashboardComponent,
     CrearSalaComponent,
-    UnirseSalaComponent
+    UnirseSalaComponent,
+    LoteriaComponent
   ],
   imports: [
     BrowserModule,
