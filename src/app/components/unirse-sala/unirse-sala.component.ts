@@ -52,7 +52,7 @@ export class UnirseSalaComponent implements OnInit, OnDestroy {
           console.log('Unido a la sala:', response);
           this.userData = {
             room: response.room,
-            userid: response.userid,
+            userId: response.userid,
             name: response.name,
             email: response.email,
           };
