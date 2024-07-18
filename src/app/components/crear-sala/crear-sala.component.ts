@@ -70,6 +70,7 @@ export class CrearSalaComponent implements OnInit, OnDestroy, AfterViewInit {
   ngOnDestroy(): void {
     this.socket.unsubscribe();
     this.socketService.disconnect();
+    this.cerrarSala()
   }
 
   crearSala() {
@@ -97,6 +98,7 @@ export class CrearSalaComponent implements OnInit, OnDestroy, AfterViewInit {
         next: (response) => {
           console.log('Sala cerrada:', response);
           this.socketService.emitSalaCerrada({ roomId: this.roomId });
+          this.router.navigate(['/dashboard']);
         },
         error: (error) => {
           console.error('Error al cerrar la sala:', error);
