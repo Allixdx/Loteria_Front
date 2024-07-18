@@ -23,4 +23,12 @@ export class SocketService {
   onActualizarJugadores(): Observable<any> {
     return this.socket.fromEvent('actualizarJugadores');
   }
+
+  emitSalaCerrada(roomId: any): void {
+    this.socket.emit('salaCerrada', roomId);
+  }
+
+  onSalaCerrada(): Observable<any> {
+    return this.socket.fromEvent('salaCerrada');
+  }
 }

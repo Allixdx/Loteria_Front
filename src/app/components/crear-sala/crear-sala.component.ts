@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { LoteriaService } from 'src/app/service/loteria.service';
 import { SocketService } from 'src/app/service/socket.service';
 import { Subscription } from 'rxjs';
+import { Router } from '@angular/router';
 
 interface Player {
   id: number;
@@ -15,22 +16,22 @@ interface Player {
   templateUrl: './crear-sala.component.html',
   styleUrls: ['./crear-sala.component.scss']
 })
-
 export class CrearSalaComponent implements OnInit, OnDestroy, AfterViewInit {
   crearSalaForm: FormGroup;
   codigoSala: string | null = null;
   roomId: number | null = null;
   jugadores: Player[] = [];
-  private actualizarPlayers: Subscription;
+  private socket: Subscription;
   private userData: any;
 
   constructor(
     private fb: FormBuilder,
     private loteriaService: LoteriaService,
-    private socketService: SocketService
+    private socketService: SocketService,
+    private router: Router
   ) {
     this.crearSalaForm = this.fb.group({});
-    this.actualizarPlayers = new Subscription();
+    this.socket = new Subscription();
   }
 
   ngOnInit(): void {
@@ -52,8 +53,7 @@ export class CrearSalaComponent implements OnInit, OnDestroy, AfterViewInit {
           this.socketService.connect();
           this.socketService.emitJugadorUnido(this.userData);
 
-          // Suscribirse para recibir actualizaciones de jugadores
-          this.actualizarPlayers = this.socketService.onActualizarJugadores().subscribe((players: Player[]) => {
+          this.socket = this.socketService.onActualizarJugadores().subscribe((players: Player[]) => {
             this.jugadores = players;
             console.log('Jugadores actualizados:', this.jugadores);
           });
@@ -68,7 +68,7 @@ export class CrearSalaComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngOnDestroy(): void {
-    this.actualizarPlayers.unsubscribe();
+    this.socket.unsubscribe();
     this.socketService.disconnect();
   }
 
@@ -92,6 +92,18 @@ export class CrearSalaComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   cerrarSala() {
-    // Lógica para cerrar la sala
+    if (this.roomId) {
+      this.loteriaService.closeRoom(this.roomId).subscribe({
+        next: (response) => {
+          console.log('Sala cerrada:', response);
+          this.socketService.emitSalaCerrada({ roomId: this.roomId });
+        },
+        error: (error) => {
+          console.error('Error al cerrar la sala:', error);
+        }
+      });
+    } else {
+      console.error('No hay ID de sala válido para cerrar.');
+    }
   }
 }

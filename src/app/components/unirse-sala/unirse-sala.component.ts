@@ -23,7 +23,7 @@ export class UnirseSalaComponent implements OnInit, OnDestroy {
   userData: any | null = null;
   unido: boolean = false;
   jugadores: Player[] = [];
-  private actualizarPlayer: Subscription;
+  private socketSubscriptions: Subscription[] = [];
 
   constructor(
     private fb: FormBuilder, 
@@ -34,14 +34,22 @@ export class UnirseSalaComponent implements OnInit, OnDestroy {
     this.joinRoomForm = this.fb.group({
       codigo: ['', Validators.required]
     });
-    this.actualizarPlayer = new Subscription();
   }
 
   ngOnInit(): void {
-    this.actualizarPlayer = this.socketService.onActualizarJugadores().subscribe((players: Player[]) => {
-      this.jugadores = players;
-      console.log('Jugadores actualizados:', this.jugadores);
-    });
+    this.socketSubscriptions.push(
+      this.socketService.onActualizarJugadores().subscribe((players: Player[]) => {
+        this.jugadores = players;
+        console.log('Jugadores actualizados:', this.jugadores);
+      })
+    );
+
+    this.socketSubscriptions.push(
+      this.socketService.onSalaCerrada().subscribe(() => {
+        console.log('Sala cerrada, redirigiendo al dashboard...');
+        this.router.navigate(['/dashboard']);
+      })
+    );
   }
 
   onSubmit() {
@@ -70,7 +78,7 @@ export class UnirseSalaComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.actualizarPlayer.unsubscribe();
+    this.socketSubscriptions.forEach(subscription => subscription.unsubscribe());
     this.socketService.disconnect();
   }
 }

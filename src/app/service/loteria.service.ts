@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, map, tap } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { CookieService } from 'ngx-cookie-service';
@@ -55,6 +55,12 @@ export class LoteriaService {
     const headers = { Authorization: `Bearer ${token}` };
 
     return this.http.get(`${this.apiUrl}/user`, { headers });
+  }
+
+  closeRoom(roomId: number): Observable<any> {
+    const token = this.cookieService.get('token');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.post<any>(`${this.apiUrl}/rooms/close`, { roomId }, { headers });
   }
 
 }
