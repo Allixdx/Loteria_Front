@@ -27,8 +27,15 @@
   margin-top: 20px;
 }
 
-mat-card {
+.cartasss {
   background: transparent !important; /* Elimina el color de fondo */
   box-shadow: none; /* Opcional: quita la sombra si también quieres eliminarla */
   border: none; /* Opcional: quita el borde si tiene */
+}
+
+mat-card {
+  align-items: center;
+  padding: 40px;
+  width: 100%;
+  max-width: 600px;
 }

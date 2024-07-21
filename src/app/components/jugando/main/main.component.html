@@ -1,5 +1,5 @@
 <div class="container">
-    <mat-card>
+    <mat-card class="cartasss">
       <div class="carta-container">
         <h2>{{ currentCarta?.name }}</h2>
         <div class="carta">
@@ -12,5 +12,16 @@
         </div>
       </div>
     </mat-card>
+
+    <mat-card>
+        <div class="jugadores">
+            <h2 style="font-size: 30px; padding: 30px;">Chems conectados</h2>
+            <mat-list>
+              <mat-list-item *ngFor="let jugador of jugadores">
+                {{ jugador.email }}
+              </mat-list-item>
+            </mat-list>
+          </div>
+      </mat-card>
   </div>
   
