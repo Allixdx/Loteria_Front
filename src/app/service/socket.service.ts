@@ -31,4 +31,9 @@ export class SocketService {
   onSalaCerrada(): Observable<any> {
     return this.socket.fromEvent('salaCerrada');
   }
+
+  onPartidaIniciada(): Observable<any> {
+    return this.socket.fromEvent('partidaIniciada');
+  }
+
 }

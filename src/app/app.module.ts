@@ -23,7 +23,8 @@ import { CrearSalaComponent } from './components/crear-sala/crear-sala.component
 import {CookieService} from 'ngx-cookie-service';
 import { HttpClientModule } from '@angular/common/http';
 import { UnirseSalaComponent } from './components/unirse-sala/unirse-sala.component';
-import { LoteriaComponent } from './components/loteria/loteria.component'; 
+import { LoteriaComponent } from './components/loteria/loteria.component';
+import { MainComponent } from './components/jugando/main/main.component'; 
 
 
 const socketConfig: SocketIoConfig = {
@@ -39,7 +40,8 @@ const socketConfig: SocketIoConfig = {
     DashboardComponent,
     CrearSalaComponent,
     UnirseSalaComponent,
-    LoteriaComponent
+    LoteriaComponent,
+    MainComponent
   ],
   imports: [
     BrowserModule,

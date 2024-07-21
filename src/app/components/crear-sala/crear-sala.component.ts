@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { LoteriaService } from 'src/app/service/loteria.service';
 import { SocketService } from 'src/app/service/socket.service';
@@ -16,12 +16,12 @@ interface Player {
   templateUrl: './crear-sala.component.html',
   styleUrls: ['./crear-sala.component.scss']
 })
-export class CrearSalaComponent implements OnInit, OnDestroy, AfterViewInit {
+export class CrearSalaComponent implements OnInit, OnDestroy {
   crearSalaForm: FormGroup;
   codigoSala: string | null = null;
   roomId: number | null = null;
   jugadores: Player[] = [];
-  private socket: Subscription;
+  private socketSubscription: Subscription = new Subscription();
   private userData: any;
 
   constructor(
@@ -31,7 +31,6 @@ export class CrearSalaComponent implements OnInit, OnDestroy, AfterViewInit {
     private router: Router
   ) {
     this.crearSalaForm = this.fb.group({});
-    this.socket = new Subscription();
   }
 
   ngOnInit(): void {
@@ -53,10 +52,7 @@ export class CrearSalaComponent implements OnInit, OnDestroy, AfterViewInit {
           this.socketService.connect();
           this.socketService.emitJugadorUnido(this.userData);
 
-          this.socket = this.socketService.onActualizarJugadores().subscribe((players: Player[]) => {
-            this.jugadores = players;
-            console.log('Jugadores actualizados:', this.jugadores);
-          });
+          this.subscribeToSocketEvents();
         },
         error: (err) => {
           console.error('Error al obtener datos del usuario:', err);
@@ -68,12 +64,19 @@ export class CrearSalaComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngOnDestroy(): void {
-    this.socket.unsubscribe();
-    this.socketService.disconnect();
-    this.cerrarSala()
+    
   }
 
-  crearSala() {
+  private subscribeToSocketEvents(): void {
+    this.socketSubscription.add(
+      this.socketService.onActualizarJugadores().subscribe((players: Player[]) => {
+        this.jugadores = players;
+        console.log('Jugadores actualizados:', this.jugadores);
+      })
+    );
+  }
+
+  crearSala(): void {
     this.loteriaService.createRoom().subscribe({
       next: (data) => {
         console.log(data);
@@ -88,17 +91,30 @@ export class CrearSalaComponent implements OnInit, OnDestroy, AfterViewInit {
     });
   }
 
-  iniciarPartida() {
-    // Lógica para iniciar la partida
+  iniciarPartida(): void {
+    if (this.roomId) {
+      this.loteriaService.startGame(this.roomId).subscribe({
+        next: (response) => {
+          console.log('Partida iniciada:', response);
+          // Redirige o actualiza la vista según sea necesario
+          this.router.navigate(['/playing/main']); // Asegúrate de que esta ruta exista
+        },
+        error: (error) => {
+          console.error('Error al iniciar la partida:', error);
+        }
+      });
+    } else {
+      console.error('ID de sala no válido.');
+    }
   }
 
-  cerrarSala() {
+  cerrarSala(): void {
     if (this.roomId) {
       this.loteriaService.closeRoom(this.roomId).subscribe({
         next: (response) => {
           console.log('Sala cerrada:', response);
           this.socketService.emitSalaCerrada({ roomId: this.roomId });
-          this.router.navigate(['/dashboard']);
+          this.router.navigate(['/dashboard']); // Redirige a la página del dashboard
         },
         error: (error) => {
           console.error('Error al cerrar la sala:', error);

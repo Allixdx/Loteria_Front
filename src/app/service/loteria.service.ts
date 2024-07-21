@@ -63,4 +63,15 @@ export class LoteriaService {
     return this.http.post<any>(`${this.apiUrl}/rooms/close`, { roomId }, { headers });
   }
 
+  startGame(roomId: number): Observable<any> {
+    const token = this.cookieService.get('token');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.post<any>(`${this.apiUrl}/rooms/start`, { roomId }, { headers });
+  }
+
+  getCards(): Observable<any[]> {
+    const token = this.cookieService.get('token');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.get<any[]>(`${this.apiUrl}/cartas`, { headers });
+  }
 }
