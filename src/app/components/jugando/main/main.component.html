@@ -1,7 +1,16 @@
-<!-- src/app/main/main.component.html -->
-<div class="cartas-container">
-    <div *ngFor="let carta of cartas">
-      <img [src]="carta.url" [alt]="carta.name" />
-    </div>
+<div class="container">
+    <mat-card>
+      <div class="carta-container">
+        <h2>{{ currentCarta?.name }}</h2>
+        <div class="carta">
+          <img [src]="currentCarta?.url" [alt]="currentCarta?.name" class="carta-imagen">
+        </div>
+  
+        <div class="button-group">
+          <button mat-raised-button color="primary" (click)="anterior()" [disabled]="currentIndex === 0">Anterior</button>
+          <button mat-raised-button color="primary" (click)="siguiente()" [disabled]="currentIndex === cartas.length - 1">Siguiente</button>
+        </div>
+      </div>
+    </mat-card>
   </div>
   

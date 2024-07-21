@@ -1,7 +1,5 @@
-// src/app/main/main.component.ts
 import { Component, OnInit } from '@angular/core';
 import { LoteriaService } from 'src/app/service/loteria.service';
-import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-main',
@@ -9,14 +7,39 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./main.component.scss']
 })
 export class MainComponent implements OnInit {
-
   cartas: any[] = [];
+  currentCarta: any;
+  currentIndex: number = 0;
 
   constructor(private loteriaService: LoteriaService) {}
 
   ngOnInit(): void {
-    this.loteriaService.getCards().subscribe(data => {
-      this.cartas = data;
+    this.loteriaService.getCards().subscribe(cartas => {
+      this.cartas = this.shuffleArray(cartas);
+      this.currentCarta = this.cartas[this.currentIndex];
     });
+  }
+
+  siguiente(): void {
+    if (this.currentIndex < this.cartas.length - 1) {
+      this.currentIndex++;
+      this.currentCarta = this.cartas[this.currentIndex];
+    }
+  }
+
+  anterior(): void {
+    if (this.currentIndex > 0) {
+      this.currentIndex--;
+      this.currentCarta = this.cartas[this.currentIndex];
+    }
+  }
+
+  // Fisher-Yates shuffle algorithm
+  private shuffleArray(array: any[]): any[] {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
   }
 }

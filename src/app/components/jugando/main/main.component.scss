@@ -1,0 +1,34 @@
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.carta-container {
+  text-align: center;
+}
+
+.carta {
+  margin: 20px 0;
+}
+
+.carta-imagen {
+  width: 400px;  /* Ajusta el ancho deseado */
+  height: 600px; /* Ajusta la altura deseada */
+  object-fit: contain; /* Ajusta la imagen sin recortes, mantiene la relación de aspecto */
+  border-radius: 8px; /* Opcional: redondea las esquinas */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Opcional: agrega sombra */
+}
+
+.button-group {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+mat-card {
+  background: transparent !important; /* Elimina el color de fondo */
+  box-shadow: none; /* Opcional: quita la sombra si también quieres eliminarla */
+  border: none; /* Opcional: quita el borde si tiene */
+}
