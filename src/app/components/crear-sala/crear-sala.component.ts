@@ -96,8 +96,7 @@ export class CrearSalaComponent implements OnInit, OnDestroy {
       this.loteriaService.startGame(this.roomId).subscribe({
         next: (response) => {
           console.log('Partida iniciada:', response);
-          // Redirige o actualiza la vista según sea necesario
-          this.router.navigate(['/playing/main']); // Asegúrate de que esta ruta exista
+          this.router.navigate(['/playing/main', this.roomId]);
         },
         error: (error) => {
           console.error('Error al iniciar la partida:', error);

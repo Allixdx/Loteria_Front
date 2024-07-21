@@ -8,6 +8,7 @@ import { UnirseSalaComponent } from './components/unirse-sala/unirse-sala.compon
 import { LoteriaComponent } from './components/loteria/loteria.component';
 import { MainComponent } from './components/jugando/main/main.component';
 
+
 const routes: Routes = [
   { path: 'registro', component: RegisterComponent },
   { path: 'login', component: LoginComponent },
@@ -15,7 +16,7 @@ const routes: Routes = [
   { path: 'crearSala', component: CrearSalaComponent },
   { path: 'unirseSala', component: UnirseSalaComponent },
   { path: 'loteria', component: LoteriaComponent },
-  { path: 'playing/main', component: MainComponent },
+  { path: 'playing/main/:roomId', component: MainComponent },
 ];
 
 @NgModule({
