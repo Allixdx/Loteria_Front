@@ -37,22 +37,10 @@ export class UnirseSalaComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.socketSubscriptions.push(
-      this.socketService.onActualizarJugadores().subscribe((players: Player[]) => {
-        this.jugadores = players;
-        console.log('Jugadores actualizados:', this.jugadores);
-      })
-    );
-
-    this.socketSubscriptions.push(
-      this.socketService.onSalaCerrada().subscribe(() => {
-        console.log('Sala cerrada, redirigiendo al dashboard...');
-        this.router.navigate(['/dashboard']);
-      })
-    );
+    this.subscribeToSocketEvents();
   }
 
-  onSubmit() {
+  onSubmit(): void {
     if (this.joinRoomForm.valid) {
       const codigo = this.joinRoomForm.value.codigo;
       this.loteriaService.joinRoom(codigo).subscribe({
@@ -79,6 +67,36 @@ export class UnirseSalaComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.socketSubscriptions.forEach(subscription => subscription.unsubscribe());
-    this.socketService.disconnect();
+    // No desconectar el socket aquí, ya que el jugador debe permanecer conectado.
+  }
+
+  private subscribeToSocketEvents(): void {
+    this.socketSubscriptions.push(
+      this.socketService.onActualizarJugadores().subscribe((players: Player[]) => {
+        this.jugadores = players;
+        console.log('Jugadores actualizados:', this.jugadores);
+      })
+    );
+
+    this.socketSubscriptions.push(
+      this.socketService.onSalaCerrada().subscribe(() => {
+        console.log('Sala cerrada, redirigiendo al dashboard...');
+        this.router.navigate(['/dashboard']);
+      })
+    );
+
+    this.socketSubscriptions.push(
+      this.socketService.onPartidaIniciada().subscribe((data: any) => {
+        console.log('Partida iniciada:', data);
+        this.router.navigate(['/playing/main', this.userData.room]);
+      })
+    );
+
+    this.socketSubscriptions.push(
+      this.socketService.onPartidaTerminada().subscribe((data: any) => {
+        console.log('Partida terminada:', data);
+        // Lógica adicional para manejar el fin de la partida si es necesario
+      })
+    );
   }
 }

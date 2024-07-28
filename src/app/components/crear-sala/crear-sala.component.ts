@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { LoteriaService } from 'src/app/service/loteria.service';
 import { SocketService } from 'src/app/service/socket.service';
@@ -16,7 +16,7 @@ interface Player {
   templateUrl: './crear-sala.component.html',
   styleUrls: ['./crear-sala.component.scss']
 })
-export class CrearSalaComponent implements OnInit, OnDestroy {
+export class CrearSalaComponent implements OnInit, OnDestroy, AfterViewInit {
   crearSalaForm: FormGroup;
   codigoSala: string | null = null;
   roomId: number | null = null;
@@ -64,7 +64,8 @@ export class CrearSalaComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    
+    this.socketSubscription.unsubscribe();
+    // No desconectar el socket aquí, ya que la sala debe permanecer abierta.
   }
 
   private subscribeToSocketEvents(): void {
@@ -72,6 +73,20 @@ export class CrearSalaComponent implements OnInit, OnDestroy {
       this.socketService.onActualizarJugadores().subscribe((players: Player[]) => {
         this.jugadores = players;
         console.log('Jugadores actualizados:', this.jugadores);
+      })
+    );
+
+    this.socketSubscription.add(
+      this.socketService.onPartidaIniciada().subscribe((data: any) => {
+        console.log('Partida iniciada:', data);
+        this.router.navigate(['/playing/main', this.roomId]);
+      })
+    );
+
+    this.socketSubscription.add(
+      this.socketService.onPartidaTerminada().subscribe((data: any) => {
+        console.log('Partida terminada:', data);
+        // Lógica adicional para manejar el fin de la partida
       })
     );
   }
@@ -93,16 +108,7 @@ export class CrearSalaComponent implements OnInit, OnDestroy {
 
   iniciarPartida(): void {
     if (this.roomId) {
-      this.loteriaService.startGame(this.roomId).subscribe({
-        next: (response) => {
-          console.log('Partida iniciada:', response);
-          
-          this.router.navigate(['/playing/main', this.roomId]);
-        },
-        error: (error) => {
-          console.error('Error al iniciar la partida:', error);
-        }
-      });
+      this.socketService.emitIniciarPartida(this.roomId);
     } else {
       console.error('ID de sala no válido.');
     }
@@ -122,6 +128,14 @@ export class CrearSalaComponent implements OnInit, OnDestroy {
       });
     } else {
       console.error('No hay ID de sala válido para cerrar.');
+    }
+  }
+
+  terminarPartida(): void {
+    if (this.roomId) {
+      this.socketService.emitTerminarPartida(this.roomId);
+    } else {
+      console.error('ID de sala no válido.');
     }
   }
 }

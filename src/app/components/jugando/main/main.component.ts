@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { LoteriaService } from 'src/app/service/loteria.service';
 import { SocketService } from 'src/app/service/socket.service';
@@ -16,7 +16,7 @@ interface Player {
   templateUrl: './main.component.html',
   styleUrls: ['./main.component.scss']
 })
-export class MainComponent implements OnInit {
+export class MainComponent implements OnInit, OnDestroy {
   cartas: any[] = [];
   currentCarta: any;
   currentIndex: number = 0;
@@ -34,11 +34,15 @@ export class MainComponent implements OnInit {
 
     this.subscribeToSocketEvents();
 
-
     this.loteriaService.getCards().subscribe(cartas => {
       this.cartas = this.shuffleArray(cartas);
       this.currentCarta = this.cartas[this.currentIndex];
     });
+  }
+
+  ngOnDestroy(): void {
+    this.socketSubscription.unsubscribe();
+    this.socketService.disconnect();
   }
 
   siguiente(): void {
@@ -68,6 +72,20 @@ export class MainComponent implements OnInit {
       this.socketService.onActualizarJugadores().subscribe((players: Player[]) => {
         this.jugadores = players;
         console.log('Jugadores actualizados:', this.jugadores);
+      })
+    );
+
+    this.socketSubscription.add(
+      this.socketService.onPartidaIniciada().subscribe((data: any) => {
+        console.log('Partida iniciada:', data);
+        // Lógica adicional para manejar el inicio de la partida
+      })
+    );
+
+    this.socketSubscription.add(
+      this.socketService.onPartidaTerminada().subscribe((data: any) => {
+        console.log('Partida terminada:', data);
+        // Lógica adicional para manejar el fin de la partida
       })
     );
   }

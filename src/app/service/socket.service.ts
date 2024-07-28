@@ -32,8 +32,19 @@ export class SocketService {
     return this.socket.fromEvent('salaCerrada');
   }
 
+  emitIniciarPartida(roomId: any): void {
+    this.socket.emit('iniciarPartida', { roomId });
+  }
+
   onPartidaIniciada(): Observable<any> {
     return this.socket.fromEvent('partidaIniciada');
   }
 
+  emitTerminarPartida(roomId: any): void {
+    this.socket.emit('terminarPartida', { roomId });
+  }
+
+  onPartidaTerminada(): Observable<any> {
+    return this.socket.fromEvent('partidaTerminada');
+  }
 }
