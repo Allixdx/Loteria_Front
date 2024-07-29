@@ -54,13 +54,16 @@ export class MainComponent implements OnInit, OnDestroy {
   }
 
   siguiente(): void {
+    // Avanzar al siguiente índice y actualizar currentCarta
     if (this.currentIndex < this.cartas.length - 1) {
-      if (!this.cartasCantadas.some(carta => carta.id === this.currentCarta.id)) {
-        this.cartasCantadas.push(this.currentCarta);
-      }
-      
       this.currentIndex++;
       this.currentCarta = this.cartas[this.currentIndex];
+      if (this.currentCarta && !this.cartasCantadas.some(carta => carta.id === this.currentCarta.id)) {
+        this.cartasCantadas.push(this.currentCarta);
+      }
+    } else {
+      // Opcional: Manejar el caso cuando ya no hay más cartas
+      console.log('No hay más cartas.');
     }
     console.log(this.cartasCantadas);
   }
