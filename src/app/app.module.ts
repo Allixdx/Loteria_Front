@@ -24,7 +24,8 @@ import {CookieService} from 'ngx-cookie-service';
 import { HttpClientModule } from '@angular/common/http';
 import { UnirseSalaComponent } from './components/unirse-sala/unirse-sala.component';
 import { LoteriaComponent } from './components/loteria/loteria.component';
-import { MainComponent } from './components/jugando/main/main.component'; 
+import { MainComponent } from './components/jugando/main/main.component';
+import { PlayerComponent } from './components/jugando/player/player.component'; 
 
 
 const socketConfig: SocketIoConfig = {
@@ -41,7 +42,8 @@ const socketConfig: SocketIoConfig = {
     CrearSalaComponent,
     UnirseSalaComponent,
     LoteriaComponent,
-    MainComponent
+    MainComponent,
+    PlayerComponent
   ],
   imports: [
     BrowserModule,

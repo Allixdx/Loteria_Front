@@ -1,0 +1,16 @@
+<div class="container">
+    <mat-card class="cartasss">
+      <div class="carta-container">
+        <table class="tabla-loteria">
+          <tr *ngFor="let row of tablaCartas">
+            <td *ngFor="let carta of row">
+              <div class="carta">
+                <img [src]="carta.url" [alt]="carta.name" class="carta-imagen">
+              </div>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </mat-card>
+  </div>
+  

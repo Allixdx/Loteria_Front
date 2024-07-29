@@ -88,7 +88,7 @@ export class UnirseSalaComponent implements OnInit, OnDestroy {
     this.socketSubscriptions.push(
       this.socketService.onPartidaIniciada().subscribe((data: any) => {
         console.log('Partida iniciada:', data);
-        this.router.navigate(['/playing/main', this.userData.room]);
+        this.router.navigate(['/playing/player', this.userData.room]);
       })
     );
 

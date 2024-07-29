@@ -1,0 +1,55 @@
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100vw;
+}
+
+.carta-container {
+  text-align: center;
+}
+
+.tabla-loteria {
+  width: 400px; /* Ajusta el ancho total de la tabla */
+  height: 600px; /* Ajusta la altura total de la tabla */
+  border-collapse: collapse; /* Quita el espacio entre celdas */
+  margin: auto; /* Centra la tabla en el contenedor */
+}
+
+.tabla-loteria td {
+  border: none; /* Elimina los bordes de las celdas */
+  padding: 0; /* Elimina el padding de las celdas */
+  text-align: center;
+  width: 25%; /* Ajusta el ancho de las celdas al 25% del ancho de la tabla */
+  height: 25%; /* Ajusta la altura de las celdas al 25% de la altura de la tabla */
+}
+
+.carta {
+  display: flex;
+  justify-content: center; /* Centra horizontalmente */
+  align-items: center; /* Centra verticalmente */
+  height: 100%;
+  width: 100%;
+}
+
+.carta-imagen {
+  width: 100%; /* Ajusta el ancho al 100% del contenedor de la carta */
+  height: 100%; /* Ajusta la altura al 100% del contenedor de la carta */
+  object-fit: contain; /* Mantiene la relación de aspecto original de la imagen */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Opcional: agrega sombra */
+}
+
+.cartasss {
+  background: transparent !important; /* Elimina el color de fondo */
+  box-shadow: none; /* Opcional: quita la sombra si también quieres eliminarla */
+  border: none; /* Opcional: quita el borde si tiene */
+  padding: 0; /* Elimina el padding */
+  margin: 0; /* Elimina el margen */
+}
+
+mat-card {
+  width: auto; /* Ajusta el ancho del card al contenido */
+  max-width: 100%; /* No exceder el ancho del contenedor */
+  padding: 0; /* Elimina el padding */
+}
