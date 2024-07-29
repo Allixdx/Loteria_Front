@@ -1,16 +1,20 @@
+/* Contenedor principal */
 .container {
   display: flex;
   justify-content: center; /* Centra horizontalmente el contenido del contenedor */
-  align-items: flex-start; /* Alinea el contenido al principio verticalmente */
-  height: 100vh;
-  width: 100vw;
+  align-items: center; /* Centra verticalmente el contenido del contenedor */
+  height: 100vh; /* Ocupa toda la altura de la ventana */
+  width: 100vw; /* Ocupa toda la anchura de la ventana */
   gap: 20px; /* Espacio entre la tabla y el contenedor de frijolitos */
+  position: relative; /* Posiciona los elementos hijos en relación a este contenedor */
 }
 
+/* Contenedor de la tabla de cartas */
 .carta-container {
   text-align: center;
 }
 
+/* Tabla de lotería */
 .tabla-loteria {
   width: 400px; /* Ajusta el ancho total de la tabla */
   height: 600px; /* Ajusta la altura total de la tabla */
@@ -40,6 +44,7 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Opcional: agrega sombra */
 }
 
+/* Estilo del mat-card */
 .cartasss {
   background: transparent !important; /* Elimina el color de fondo */
   box-shadow: none; /* Opcional: quita la sombra si también quieres eliminarla */
@@ -49,15 +54,18 @@
 }
 
 mat-card {
-  width: auto; /* Ajusta el ancho del card al contenido */
+  display: flex; /* Usado para centrar elementos hijos */
+  flex-direction: row; /* Distribuye los elementos en una fila */
   max-width: 100%; /* No exceder el ancho del contenedor */
   padding: 0; /* Elimina el padding */
 }
 
+/* Botón */
 button {
   margin-bottom: 20px; /* Espacio debajo del botón */
 }
 
+/* Contenedor de frijolitos */
 .frijolito-container {
   display: flex;
   flex-wrap: wrap;
