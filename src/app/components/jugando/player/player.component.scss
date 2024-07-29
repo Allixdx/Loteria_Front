@@ -1,9 +1,10 @@
 .container {
   display: flex;
-  justify-content: center;
-  align-items: center;
+  justify-content: center; /* Centra horizontalmente el contenido del contenedor */
+  align-items: flex-start; /* Alinea el contenido al principio verticalmente */
   height: 100vh;
   width: 100vw;
+  gap: 20px; /* Espacio entre la tabla y el contenedor de frijolitos */
 }
 
 .carta-container {
@@ -14,7 +15,6 @@
   width: 400px; /* Ajusta el ancho total de la tabla */
   height: 600px; /* Ajusta la altura total de la tabla */
   border-collapse: collapse; /* Quita el espacio entre celdas */
-  margin: auto; /* Centra la tabla en el contenedor */
 }
 
 .tabla-loteria td {
@@ -56,4 +56,25 @@ mat-card {
 
 button {
   margin-bottom: 20px; /* Espacio debajo del botón */
+}
+
+.frijolito-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px; /* Espacio entre frijolitos si es necesario */
+  width: 200px; /* Ajusta el ancho del contenedor de frijolitos */
+  height: 600px; /* Ajusta la altura del contenedor de frijolitos para que coincida con la altura de la tabla */
+  position: relative; /* Asegura que los frijolitos se posicionen correctamente */
+}
+
+.frijolito {
+  position: absolute;
+  width: 50px; /* Ajusta el ancho del frijolito */
+  height: 75px; /* Ajusta la altura del frijolito (1:1.5 relación) */
+}
+
+.frijolito-imagen {
+  width: 100%;
+  height: 100%;
+  object-fit: contain; /* Ajusta la imagen para que se ajuste al área sin recortes */
 }

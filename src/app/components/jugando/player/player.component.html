@@ -1,7 +1,6 @@
 <div class="container">
     <mat-card class="cartasss">
       <div class="carta-container">
-        <h2>Tabla de Lotería</h2>
         <button mat-raised-button color="primary" (click)="shuffleCards()">Cambiar Cartas</button>
         <table class="tabla-loteria">
           <tr *ngFor="let row of tablaCartas">
@@ -14,5 +13,13 @@
         </table>
       </div>
     </mat-card>
+    <div class="frijolito-container">
+      <div *ngFor="let frijolito of frijolitos" 
+           class="frijolito" 
+           [ngStyle]="{'top.px': frijolito.top, 'left.px': frijolito.left}"
+           (mousedown)="onMouseDown($event, frijolito)">
+        <img src="assets/imagen/frijolito.png" alt="Frijolito" class="frijolito-imagen">
+      </div>
+    </div>
   </div>
   
