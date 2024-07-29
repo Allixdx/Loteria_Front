@@ -1,21 +1,17 @@
 <div class="container">
     <mat-card class="cartasss">
-      <div class="carta-container">
-        <button mat-raised-button color="primary" (click)="shuffleCards()">Cambiar Cartas</button>
-        <table class="tabla-loteria">
-          <tr *ngFor="let row of tablaCartas">
-            <td *ngFor="let carta of row">
-              <div class="carta" [attr.data-id]="carta.id">
-                <img [src]="carta.url" 
-                     [alt]="carta.name" 
-                     class="carta-imagen" 
-                     [ngClass]="{'opaca': cartasMarcadas.has(carta.id)}"
-                     (click)="toggleCard(carta.id)">
-              </div>
-            </td>
-          </tr>
-        </table>
-      </div>
+        <div class="carta-container">
+            <button mat-raised-button color="primary" (click)="shuffleCards()">Cambiar Cartas</button>
+            <table class="tabla-loteria">
+                <tr *ngFor="let row of tablaCartas">
+                    <td *ngFor="let carta of row">
+                        <div class="carta" [attr.data-id]="carta.id">
+                            <img [src]="carta.url" [alt]="carta.name" class="carta-imagen"
+                                [ngClass]="{'opaca': cartasMarcadas.has(carta.id)}" (click)="toggleCard(carta.id)">
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
     </mat-card>
-  </div>
-  
+</div>

@@ -13,7 +13,7 @@ export class PlayerComponent implements OnInit {
   tablaCartas: any[][] = [];
   cartasMarcadas: Set<number> = new Set(); // Almacena IDs de cartas marcadas
 
-  constructor(private route: ActivatedRoute, private loteriaService: LoteriaService) {}
+  constructor(private route: ActivatedRoute, private loteriaService: LoteriaService) { }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
