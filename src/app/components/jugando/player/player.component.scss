@@ -31,6 +31,7 @@
 
 .carta {
   display: flex;
+  position: relative; 
   justify-content: center; /* Centra horizontalmente */
   align-items: center; /* Centra verticalmente */
   height: 100%;
@@ -42,6 +43,11 @@
   height: 100%; /* Ajusta la altura al 100% del contenedor de la carta */
   object-fit: contain; /* Mantiene la relación de aspecto original de la imagen */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Opcional: agrega sombra */
+  transition: opacity 0.3s; /* Transición suave para opacidad */
+}
+
+.opaca {
+  opacity: 0.5; /* Ajusta la opacidad cuando la carta está marcada */
 }
 
 /* Estilo del mat-card */
@@ -63,26 +69,4 @@ mat-card {
 /* Botón */
 button {
   margin-bottom: 20px; /* Espacio debajo del botón */
-}
-
-/* Contenedor de frijolitos */
-.frijolito-container {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px; /* Espacio entre frijolitos si es necesario */
-  width: 200px; /* Ajusta el ancho del contenedor de frijolitos */
-  height: 600px; /* Ajusta la altura del contenedor de frijolitos para que coincida con la altura de la tabla */
-  position: relative; /* Asegura que los frijolitos se posicionen correctamente */
-}
-
-.frijolito {
-  position: absolute;
-  width: 50px; /* Ajusta el ancho del frijolito */
-  height: 75px; /* Ajusta la altura del frijolito (1:1.5 relación) */
-}
-
-.frijolito-imagen {
-  width: 100%;
-  height: 100%;
-  object-fit: contain; /* Ajusta la imagen para que se ajuste al área sin recortes */
 }

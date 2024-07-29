@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { LoteriaService } from 'src/app/service/loteria.service';
 
@@ -11,11 +11,7 @@ export class PlayerComponent implements OnInit {
   roomId: number | null = null;
   cartas: any[] = [];
   tablaCartas: any[][] = [];
-  frijolitos: { top: number, left: number }[] = [];
-  isDragging: boolean = false;
-  currentFrijolito: any | null = null;
-  offsetX: number = 0;
-  offsetY: number = 0;
+  cartasMarcadas: Set<number> = new Set(); // Almacena IDs de cartas marcadas
 
   constructor(private route: ActivatedRoute, private loteriaService: LoteriaService) {}
 
@@ -28,9 +24,8 @@ export class PlayerComponent implements OnInit {
     this.loteriaService.getCards().subscribe(cartas => {
       this.cartas = cartas;
       this.shuffleAndCreateCardTable(); // Inicializa la tabla de cartas al cargar
+      console.log(this.tablaCartas)
     });
-
-    this.initializeFrijolitos();
   }
 
   private shuffleArray(array: any[]): any[] {
@@ -56,36 +51,16 @@ export class PlayerComponent implements OnInit {
     }
   }
 
-  private initializeFrijolitos(): void {
-    this.frijolitos = Array.from({ length: 16 }, () => ({
-      top: Math.random() * 100,
-      left: Math.random() * 100
-    }));
-  }
-
-  onMouseDown(event: MouseEvent, frijolito: any): void {
-    this.isDragging = true;
-    this.currentFrijolito = frijolito;
-    this.offsetX = event.clientX - frijolito.left;
-    this.offsetY = event.clientY - frijolito.top;
-    event.preventDefault();
-  }
-
-  @HostListener('window:mousemove', ['$event'])
-  onMouseMove(event: MouseEvent): void {
-    if (this.isDragging && this.currentFrijolito) {
-      this.currentFrijolito.left = event.clientX - this.offsetX;
-      this.currentFrijolito.top = event.clientY - this.offsetY;
-    }
-  }
-
-  @HostListener('window:mouseup')
-  onMouseUp(): void {
-    this.isDragging = false;
-    this.currentFrijolito = null;
-  }
-
   shuffleCards(): void {
     this.shuffleAndCreateCardTable(); // Mezcla las cartas y actualiza la tabla
+  }
+
+  toggleCard(cartaId: number): void {
+    if (this.cartasMarcadas.has(cartaId)) {
+      this.cartasMarcadas.delete(cartaId);
+    } else {
+      this.cartasMarcadas.add(cartaId);
+    }
+    console.log(this.cartasMarcadas)
   }
 }

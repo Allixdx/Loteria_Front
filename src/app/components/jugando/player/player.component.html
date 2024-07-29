@@ -5,20 +5,16 @@
         <table class="tabla-loteria">
           <tr *ngFor="let row of tablaCartas">
             <td *ngFor="let carta of row">
-              <div class="carta">
-                <img [src]="carta.url" [alt]="carta.name" class="carta-imagen">
+              <div class="carta" [attr.data-id]="carta.id">
+                <img [src]="carta.url" 
+                     [alt]="carta.name" 
+                     class="carta-imagen" 
+                     [ngClass]="{'opaca': cartasMarcadas.has(carta.id)}"
+                     (click)="toggleCard(carta.id)">
               </div>
             </td>
           </tr>
         </table>
-      </div>
-      <div class="frijolito-container">
-        <div *ngFor="let frijolito of frijolitos" 
-             class="frijolito" 
-             [ngStyle]="{'top.px': frijolito.top, 'left.px': frijolito.left}"
-             (mousedown)="onMouseDown($event, frijolito)">
-          <img src="assets/imagen/frijolito.png" alt="Frijolito" class="frijolito-imagen">
-        </div>
       </div>
     </mat-card>
   </div>
