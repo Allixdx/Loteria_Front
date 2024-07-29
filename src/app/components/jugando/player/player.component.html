@@ -1,7 +1,10 @@
 <div class="container">
     <mat-card class="cartasss">
         <div class="carta-container">
-            <button mat-raised-button color="primary" (click)="shuffleCards()">Cambiar Cartas</button>
+            <div class="button-container">
+                <button mat-raised-button color="primary" (click)="shuffleCards()">Cambiar Cartas</button>
+                <button mat-raised-button color="accent" (click)="celebrateVictory()">Cantar Victoria</button>
+            </div>
             <table class="tabla-loteria">
                 <tr *ngFor="let row of tablaCartas">
                     <td *ngFor="let carta of row">

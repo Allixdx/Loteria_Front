@@ -24,7 +24,7 @@ export class PlayerComponent implements OnInit {
     this.loteriaService.getCards().subscribe(cartas => {
       this.cartas = cartas;
       this.shuffleAndCreateCardTable(); // Inicializa la tabla de cartas al cargar
-      console.log(this.tablaCartas)
+      console.log(this.tablaCartas);
     });
   }
 
@@ -37,7 +37,12 @@ export class PlayerComponent implements OnInit {
   }
 
   private shuffleAndCreateCardTable(): void {
+    // Filtrar la carta "cheems" si existe
+    this.cartas = this.cartas.filter(carta => carta.name !== 'cheems');
+    
+    // Barajar las cartas restantes y tomar solo las primeras 16
     this.cartas = this.shuffleArray(this.cartas).slice(0, 16);
+
     this.createCardTable();
   }
 
@@ -61,6 +66,12 @@ export class PlayerComponent implements OnInit {
     } else {
       this.cartasMarcadas.add(cartaId);
     }
-    console.log(this.cartasMarcadas)
+    console.log(this.cartasMarcadas);
+  }
+  
+  celebrateVictory(): void {
+    // Lógica para cantar victoria
+    console.log('¡Victoria!');
+    alert('¡Cantar Victoria!');
   }
 }

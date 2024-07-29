@@ -18,6 +18,7 @@ interface Player {
 })
 export class MainComponent implements OnInit, OnDestroy {
   cartas: any[] = [];
+  cartasCantadas: any[] = [];
   currentCarta: any;
   currentIndex: number = 0;
   roomId: number | null = null;
@@ -36,6 +37,13 @@ export class MainComponent implements OnInit, OnDestroy {
 
     this.loteriaService.getCards().subscribe(cartas => {
       this.cartas = this.shuffleArray(cartas);
+      
+      const cheeemsCarta = this.cartas.find(carta => carta.name === 'cheems');
+      if (cheeemsCarta) {
+        this.cartas = this.cartas.filter(carta => carta.name !== 'cheems');
+        this.cartas.unshift(cheeemsCarta);
+      }
+
       this.currentCarta = this.cartas[this.currentIndex];
     });
   }
@@ -47,11 +55,16 @@ export class MainComponent implements OnInit, OnDestroy {
 
   siguiente(): void {
     if (this.currentIndex < this.cartas.length - 1) {
+      if (!this.cartasCantadas.some(carta => carta.id === this.currentCarta.id)) {
+        this.cartasCantadas.push(this.currentCarta);
+      }
+      
       this.currentIndex++;
       this.currentCarta = this.cartas[this.currentIndex];
     }
+    console.log(this.cartasCantadas);
   }
-
+  
   anterior(): void {
     if (this.currentIndex > 0) {
       this.currentIndex--;

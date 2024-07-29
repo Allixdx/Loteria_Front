@@ -14,6 +14,14 @@
   text-align: center;
 }
 
+/* Contenedor de los botones */
+.button-container {
+  display: flex;
+  justify-content: center;
+  gap: 10px; /* Espacio entre los botones */
+  margin-bottom: 20px; /* Espacio debajo del contenedor de botones */
+}
+
 /* Tabla de lotería */
 .tabla-loteria {
   width: 400px; /* Ajusta el ancho total de la tabla */
@@ -43,11 +51,6 @@
   height: 100%; /* Ajusta la altura al 100% del contenedor de la carta */
   object-fit: contain; /* Mantiene la relación de aspecto original de la imagen */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Opcional: agrega sombra */
-  transition: opacity 0.3s; /* Transición suave para opacidad */
-}
-
-.opaca {
-  opacity: 0.5; /* Ajusta la opacidad cuando la carta está marcada */
 }
 
 /* Estilo del mat-card */
@@ -69,4 +72,9 @@ mat-card {
 /* Botón */
 button {
   margin-bottom: 20px; /* Espacio debajo del botón */
+}
+
+/* Estilo para la imagen opaca */
+.opaca {
+  opacity: 0.5; /* Ajusta la opacidad para las cartas marcadas */
 }
