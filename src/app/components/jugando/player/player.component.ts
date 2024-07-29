@@ -21,12 +21,12 @@ export class PlayerComponent implements OnInit {
     });
 
     this.loteriaService.getCards().subscribe(cartas => {
-      this.cartas = this.shuffleArray(cartas).slice(0, 16);
-      this.createCardTable();
+      this.cartas = cartas;
+      this.shuffleAndCreateCardTable(); // Inicializa la tabla de cartas al cargar
     });
   }
 
-  private shuffleArray(array: any[]): any[] {
+  shuffleArray(array: any[]): any[] {
     for (let i = array.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [array[i], array[j]] = [array[j], array[i]];
@@ -34,12 +34,22 @@ export class PlayerComponent implements OnInit {
     return array;
   }
 
+  shuffleAndCreateCardTable(): void {
+    this.cartas = this.shuffleArray(this.cartas).slice(0, 16);
+    this.createCardTable();
+  }
+
   private createCardTable(): void {
+    this.tablaCartas = [];
     for (let i = 0; i < 4; i++) {
       this.tablaCartas[i] = [];
       for (let j = 0; j < 4; j++) {
         this.tablaCartas[i][j] = this.cartas[i * 4 + j];
       }
     }
+  }
+
+  shuffleCards(): void {
+    this.shuffleAndCreateCardTable(); // Mezcla las cartas y actualiza la tabla
   }
 }
