@@ -47,4 +47,13 @@ export class SocketService {
   onPartidaTerminada(): Observable<any> {
     return this.socket.fromEvent('partidaTerminada');
   }
+
+  emitCartaCantada(roomId: number, carta: any): void {
+    this.socket.emit('cartaCantada', { roomId, carta });
+  }
+
+  onCartaCantada(): Observable<any> {
+    return this.socket.fromEvent('cartaCantada');
+  }
+
 }

@@ -60,6 +60,9 @@ export class MainComponent implements OnInit, OnDestroy {
       this.currentCarta = this.cartas[this.currentIndex];
       if (this.currentCarta && !this.cartasCantadas.some(carta => carta.id === this.currentCarta.id)) {
         this.cartasCantadas.push(this.currentCarta);
+        if (this.roomId !== null) {
+          this.socketService.emitCartaCantada(this.roomId, this.currentCarta);
+        }
       }
     } else {
       // Opcional: Manejar el caso cuando ya no hay más cartas

@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { LoteriaService } from 'src/app/service/loteria.service';
+import { SocketService } from 'src/app/service/socket.service';
+import { Subscription } from 'rxjs';
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-player',
@@ -12,8 +16,12 @@ export class PlayerComponent implements OnInit {
   cartas: any[] = [];
   tablaCartas: any[][] = [];
   cartasMarcadas: Set<number> = new Set(); // Almacena IDs de cartas marcadas
+  private socketSubscriptions: Subscription[] = [];
 
-  constructor(private route: ActivatedRoute, private loteriaService: LoteriaService) { }
+
+  constructor(private route: ActivatedRoute, private loteriaService: LoteriaService,     private socketService: SocketService,     private router: Router
+
+    ) { }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
@@ -26,6 +34,8 @@ export class PlayerComponent implements OnInit {
       this.shuffleAndCreateCardTable(); // Inicializa la tabla de cartas al cargar
       console.log(this.tablaCartas);
     });
+
+    this.subscribeToSocketEvents(); 
   }
 
   private shuffleArray(array: any[]): any[] {
@@ -73,5 +83,29 @@ export class PlayerComponent implements OnInit {
     // Lógica para cantar victoria
     console.log('¡Victoria!');
     alert('¡Cantar Victoria!');
+  }
+
+  private subscribeToSocketEvents(): void {
+
+    this.socketSubscriptions.push(
+      this.socketService.onCartaCantada().subscribe((data: any) => {
+        console.log('Carta cantada:', data.carta);
+      })
+    );
+  
+
+    this.socketSubscriptions.push(
+      this.socketService.onSalaCerrada().subscribe(() => {
+        console.log('Sala cerrada, redirigiendo al dashboard...');
+        this.router.navigate(['/dashboard']);
+      })
+    );
+
+    this.socketSubscriptions.push(
+      this.socketService.onPartidaTerminada().subscribe((data: any) => {
+        console.log('Partida terminada:', data);
+        // Lógica adicional para manejar el fin de la partida si es necesario
+      })
+    );
   }
 }
