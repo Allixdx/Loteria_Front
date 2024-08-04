@@ -56,4 +56,13 @@ export class SocketService {
     return this.socket.fromEvent('cartaCantada');
   }
 
+  // Nuevo método para solicitar la verificación de cartas
+  emitVerificarCartas(roomId: number, cartasMarcadas: number[]): void {
+    this.socket.emit('verificarCartas', { roomId, cartasMarcadas });
+  }
+
+  // Nuevo método para escuchar el resultado de la verificación de cartas
+  onResultadoVerificacionCartas(): Observable<any> {
+    return this.socket.fromEvent('resultadoVerificacionCartas');
+  }
 }
