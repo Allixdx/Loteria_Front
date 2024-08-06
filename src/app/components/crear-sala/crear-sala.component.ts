@@ -108,11 +108,20 @@ export class CrearSalaComponent implements OnInit, OnDestroy, AfterViewInit {
 
   iniciarPartida(): void {
     if (this.roomId) {
-      this.socketService.emitIniciarPartida(this.roomId);
+      this.loteriaService.startGame(this.roomId).subscribe(
+        response => {
+          console.log('Partida iniciada con éxito', response);
+          this.socketService.emitIniciarPartida(this.roomId);
+        },
+        error => {
+          console.error('Error al iniciar la partida', error);
+        }
+      );
     } else {
       console.error('ID de sala no válido.');
     }
   }
+
 
   cerrarSala(): void {
     if (this.roomId) {
