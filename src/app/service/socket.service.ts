@@ -12,6 +12,10 @@ export class SocketService {
     this.socket.connect();
   }
 
+  getSocketId(): string {
+    return this.socket.ioSocket.id;
+  }
+
   disconnect(): void {
     this.socket.disconnect();
   }
@@ -57,12 +61,16 @@ export class SocketService {
   }
 
   // Nuevo método para solicitar la verificación de cartas
-  emitVerificarCartas(roomId: number, cartasMarcadas: number[]): void {
-    this.socket.emit('verificarCartas', { roomId, cartasMarcadas });
+  emitVerificarCartas(roomId: number, cartasMarcadas: number[], socketId: string): void {
+    this.socket.emit('verificarCartas', { roomId, cartasMarcadas, socketId });
   }
 
   // Nuevo método para escuchar el resultado de la verificación de cartas
   onResultadoVerificacionCartas(): Observable<any> {
     return this.socket.fromEvent('resultadoVerificacionCartas');
+  }
+
+  onVictoriaAnunciada(): Observable<any> {
+    return this.socket.fromEvent('victoriaAnunciada');
   }
 }

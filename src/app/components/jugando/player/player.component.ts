@@ -94,17 +94,16 @@ export class PlayerComponent implements OnInit, OnDestroy {
 
   celebrateVictory(): void {
     if (this.allCardsMarked) {
-      console.log('Cartas marcadas para verificar:', Array.from(this.cartasMarcadas)); // Agrega esto
-      if(this.roomId) {
-
-        this.socketService.emitVerificarCartas(this.roomId, Array.from(this.cartasMarcadas));
+      console.log('Cartas marcadas para verificar:', Array.from(this.cartasMarcadas)); 
+      if (this.roomId) {
+        const socketId = this.socketService.getSocketId();
+        this.socketService.emitVerificarCartas(this.roomId, Array.from(this.cartasMarcadas), socketId);
         
         this.socketSubscriptions.push(
           this.socketService.onResultadoVerificacionCartas().subscribe((data: any) => {
             console.log('Resultado de verificación de cartas:', data.result);
             if (data.result) {
               console.log('¡Victoria!');
-              alert('¡Cantar Victoria!');
             } else {
               alert('No todas las cartas marcadas han sido cantadas.');
             }
@@ -121,7 +120,6 @@ export class PlayerComponent implements OnInit, OnDestroy {
     this.socketSubscriptions.push(
       this.socketService.onCartaCantada().subscribe((data: any) => {
         console.log('Carta cantada:', data.carta);
-        // Aquí puedes actualizar el estado de las cartas marcadas si es necesario
       })
     );
 
@@ -135,14 +133,18 @@ export class PlayerComponent implements OnInit, OnDestroy {
     this.socketSubscriptions.push(
       this.socketService.onPartidaTerminada().subscribe((data: any) => {
         console.log('Partida terminada:', data);
-        // Lógica adicional para manejar el fin de la partida si es necesario
       })
     );
 
     this.socketSubscriptions.push(
       this.socketService.onResultadoVerificacionCartas().subscribe((data: any) => {
         console.log('Resultado de verificación de cartas:', data.result);
-        // Aquí puedes manejar la respuesta del servidor para verificación de cartas
+      })
+    );
+
+    this.socketSubscriptions.push(
+      this.socketService.onVictoriaAnunciada().subscribe((data: any) => {
+        alert(`¡${data.userName} ha ganado la partida!`);
       })
     );
   }

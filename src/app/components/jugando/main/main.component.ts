@@ -49,8 +49,7 @@ export class MainComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.socketSubscription.unsubscribe();
-    this.socketService.disconnect();
+
   }
 
   siguiente(): void {
@@ -107,5 +106,13 @@ export class MainComponent implements OnInit, OnDestroy {
         // Lógica adicional para manejar el fin de la partida
       })
     );
+
+    this.socketSubscription.add(
+      this.socketService.onVictoriaAnunciada().subscribe((data: any) => {
+        console.log('Victoria anunciada:', data);
+        alert(`¡${data.userName} ha ganado la partida!`);
+      })
+    );
+    
   }
 }
