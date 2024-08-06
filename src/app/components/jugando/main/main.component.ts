@@ -1,9 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { LoteriaService } from 'src/app/service/loteria.service';
 import { SocketService } from 'src/app/service/socket.service';
 import { Subscription } from 'rxjs';
-import { Router } from '@angular/router';
 
 interface Player {
   id: number;
@@ -25,7 +24,12 @@ export class MainComponent implements OnInit, OnDestroy {
   jugadores: Player[] = [];
   private socketSubscription: Subscription = new Subscription();
 
-  constructor(private loteriaService: LoteriaService, private route: ActivatedRoute, private socketService: SocketService, private router: Router) {}
+  constructor(
+    private loteriaService: LoteriaService,
+    private route: ActivatedRoute,
+    private socketService: SocketService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
@@ -37,7 +41,7 @@ export class MainComponent implements OnInit, OnDestroy {
 
     this.loteriaService.getCards().subscribe(cartas => {
       this.cartas = this.shuffleArray(cartas);
-      
+
       const cheeemsCarta = this.cartas.find(carta => carta.name === 'cheems');
       if (cheeemsCarta) {
         this.cartas = this.cartas.filter(carta => carta.name !== 'cheems');
@@ -49,11 +53,10 @@ export class MainComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-
+    this.socketSubscription.unsubscribe();
   }
 
   siguiente(): void {
-    // Avanzar al siguiente índice y actualizar currentCarta
     if (this.currentIndex < this.cartas.length - 1) {
       this.currentIndex++;
       this.currentCarta = this.cartas[this.currentIndex];
@@ -64,12 +67,11 @@ export class MainComponent implements OnInit, OnDestroy {
         }
       }
     } else {
-      // Opcional: Manejar el caso cuando ya no hay más cartas
       console.log('No hay más cartas.');
     }
     console.log(this.cartasCantadas);
   }
-  
+
   anterior(): void {
     if (this.currentIndex > 0) {
       this.currentIndex--;
@@ -94,16 +96,15 @@ export class MainComponent implements OnInit, OnDestroy {
     );
 
     this.socketSubscription.add(
-      this.socketService.onPartidaIniciada().subscribe((data: any) => {
-        console.log('Partida iniciada:', data);
-        // Lógica adicional para manejar el inicio de la partida
+      this.socketService.onPartidaIniciada().subscribe(() => {
+        console.log('Partida iniciada.');
       })
     );
 
     this.socketSubscription.add(
       this.socketService.onPartidaTerminada().subscribe((data: any) => {
         console.log('Partida terminada:', data);
-        // Lógica adicional para manejar el fin de la partida
+        this.handleVictory(data);
       })
     );
 
@@ -111,8 +112,16 @@ export class MainComponent implements OnInit, OnDestroy {
       this.socketService.onVictoriaAnunciada().subscribe((data: any) => {
         console.log('Victoria anunciada:', data);
         alert(`¡${data.userName} ha ganado la partida!`);
+        this.handleVictory(data);
       })
     );
-    
+  }
+
+  private handleVictory(data: any): void {
+    // Almacena el estado en localStorage o sessionStorage
+    sessionStorage.setItem('roomData', JSON.stringify({ roomId: this.roomId, ...data }));
+
+    // Redirige a CrearSalaComponent
+    this.router.navigate(['/crearSala']);
   }
 }

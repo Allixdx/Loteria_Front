@@ -1,8 +1,10 @@
 <div class="container">
   <mat-card>
     <div class="crear-sala">
-      <h2>El código de la sala es: {{ codigoSala }}</h2>
-
+      <div *ngIf="codigoSala">
+        Código de la sala: {{ codigoSala }}
+      </div>
+      
       <div class="jugadores">
         <h3>Jugadores en la sala:</h3>
         <mat-list>
