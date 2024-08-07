@@ -35,7 +35,6 @@ import { MainComponent } from './components/jugando/main/main.component';
 import { PlayerComponent } from './components/jugando/player/player.component';
 import { HistorialComponent } from './historial/historial.component'; 
 
-
 const socketConfig: SocketIoConfig = {
   url: environment.wsUrl,
   options: { transports: ['websocket'] }

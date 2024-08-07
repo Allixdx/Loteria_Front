@@ -113,8 +113,6 @@ export class UnirseSalaComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.socketSubscriptions.forEach(subscription => subscription.unsubscribe());
-    // No desconectar el socket aquí, ya que el jugador debe permanecer conectado.
   }
 
   private subscribeToSocketEvents(): void {
@@ -136,13 +134,6 @@ export class UnirseSalaComponent implements OnInit, OnDestroy {
       this.socketService.onPartidaIniciada().subscribe((data: any) => {
         console.log('Partida iniciada:', data);
         this.router.navigate(['/playing/player', this.userData.room], { queryParams: { codigo: this.codigoSala } });
-      })
-    );
-
-    this.socketSubscriptions.push(
-      this.socketService.onPartidaTerminada().subscribe((data: any) => {
-        console.log('Partida terminada:', data);
-        // Lógica adicional para manejar el fin de la partida si es necesario
       })
     );
   }

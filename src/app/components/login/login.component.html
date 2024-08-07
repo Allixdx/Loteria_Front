@@ -3,10 +3,10 @@
       <h2>Iniciar sesión</h2>
       <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
         <mat-form-field class="full-width">
-          <mat-label>Identifier</mat-label>
+          <mat-label>Correo</mat-label>
           <input matInput id="identifier" type="identifier" formControlName="identifier">
           <mat-error *ngIf="loginForm.get('identifier')?.invalid && (loginForm.get('identifier')?.touched || loginForm.get('identifier')?.dirty)">
-            <small class="text-danger" *ngIf="loginForm.get('identifier')?.errors?.['required']">El identifier es requerido.</small>
+            <small class="text-danger" *ngIf="loginForm.get('identifier')?.errors?.['required']">El correo es requerido.</small>
           </mat-error>
         </mat-form-field>
         <mat-form-field class="full-width">

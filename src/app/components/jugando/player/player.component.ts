@@ -47,7 +47,6 @@ export class PlayerComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.socketSubscriptions.forEach(subscription => subscription.unsubscribe());
   }
 
   private shuffleArray(array: any[]): any[] {
