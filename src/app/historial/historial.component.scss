@@ -30,3 +30,24 @@
 mat-accordion {
   width: 100%;
 }
+
+/* src/app/components/historial/historial.component.scss */
+.container {
+  padding: 16px;
+}
+
+.filters {
+  margin-bottom: 16px;
+}
+
+.pagination-controls {
+  margin: 16px 0;
+}
+
+.mat-tab-group {
+  margin-top: 16px;
+}
+
+button.mat-raised-button {
+  margin-right: 8px;
+}

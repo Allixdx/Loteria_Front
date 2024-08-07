@@ -1,75 +1,101 @@
-<!-- src/app/components/room-list/room-list.component.html -->
-<div class="container">
-    <!-- Filtros de Fecha -->
-    <div class="filters">
-      <mat-form-field appearance="fill">
-        <mat-label>Fecha de Inicio</mat-label>
-        <input matInput [matDatepicker]="startDatePicker" (dateChange)="onDateChange()" [(ngModel)]="startDate">
-        <mat-datepicker-toggle matSuffix [for]="startDatePicker"></mat-datepicker-toggle>
-        <mat-datepicker #startDatePicker></mat-datepicker>
-      </mat-form-field>
-  
-      <mat-form-field appearance="fill">
-        <mat-label>Fecha de Fin</mat-label>
-        <input matInput [matDatepicker]="endDatePicker" (dateChange)="onDateChange()" [(ngModel)]="endDate">
-        <mat-datepicker-toggle matSuffix [for]="endDatePicker"></mat-datepicker-toggle>
-        <mat-datepicker #endDatePicker></mat-datepicker>
-      </mat-form-field>
-    </div>
-
+<!-- src/app/components/historial/historial.component.html -->
+<div>
+    <!-- Botones para seleccionar la vista -->
+    <button mat-raised-button (click)="setViewMode('main')" [color]="viewMode === 'main' ? 'primary' : 'default'">Main</button>
+    <button mat-raised-button (click)="setViewMode('player')" [color]="viewMode === 'player' ? 'primary' : 'default'">Player</button>
+    
+    <!-- Contenido basado en la opción seleccionada -->
+    <ng-container *ngIf="viewMode === 'main'">
+      <!-- Mostrar lista de salas con jugadores y ganadores -->
+      <div class="container">
+        <!-- Filtros de Fecha -->
+        <div class="filters">
+          <mat-form-field appearance="fill">
+            <mat-label>Fecha de Inicio</mat-label>
+            <input matInput [matDatepicker]="startDatePicker" (dateChange)="onDateChange()" [(ngModel)]="startDate">
+            <mat-datepicker-toggle matSuffix [for]="startDatePicker"></mat-datepicker-toggle>
+            <mat-datepicker #startDatePicker></mat-datepicker>
+          </mat-form-field>
+    
+          <mat-form-field appearance="fill">
+            <mat-label>Fecha de Fin</mat-label>
+            <input matInput [matDatepicker]="endDatePicker" (dateChange)="onDateChange()" [(ngModel)]="endDate">
+            <mat-datepicker-toggle matSuffix [for]="endDatePicker"></mat-datepicker-toggle>
+            <mat-datepicker #endDatePicker></mat-datepicker>
+          </mat-form-field>
+        </div>
+    
         <!-- Botones de Paginación -->
         <div class="pagination-controls">
-            <button mat-raised-button color="primary" (click)="previousPage()" [disabled]="currentPage === 0">Anterior</button>
-            <button mat-raised-button color="primary" (click)="nextPage()" [disabled]="(currentPage + 1) * pageSize >= filteredRooms.length">Siguiente</button>
-          </div>
+          <button mat-raised-button color="primary" (click)="previousPage()" [disabled]="currentPage === 0">Anterior</button>
+          <button mat-raised-button color="primary" (click)="nextPage()" [disabled]="(currentPage + 1) * pageSize >= filteredRooms.length">Siguiente</button>
+        </div>
+    
+        <!-- Lista de Salas -->
+        <mat-accordion>
+          <mat-expansion-panel *ngFor="let room of paginatedRooms[currentPage]" (opened)="onRoomClick(room.id)" [expanded]="selectedRoomId === room.id">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                {{ room.codigo }}
+              </mat-panel-title>
+              <mat-panel-description>
+                Código de la Sala: {{ room.codigo }}
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+    
+            <mat-tab-group>
+              <mat-tab label="Jugadores">
+                <table mat-table [dataSource]="playersDataSource" class="mat-elevation-z8">
+                  <ng-container matColumnDef="user_id">
+                    <th mat-header-cell *matHeaderCellDef>User ID</th>
+                    <td mat-cell *matCellDef="let player">{{ player.user_id }}</td>
+                  </ng-container>
+                  <tr mat-header-row *matHeaderRowDef="['user_id']"></tr>
+                  <tr mat-row *matRowDef="let row; columns: ['user_id'];"></tr>
+                </table>
+                <mat-paginator [pageSize]="5" [pageSizeOptions]="[5]" showFirstLastButtons></mat-paginator>
+              </mat-tab>
+              <mat-tab label="Ganadores">
+                <table mat-table [dataSource]="winnersDataSource" class="mat-elevation-z8">
+                  <ng-container matColumnDef="user_id">
+                    <th mat-header-cell *matHeaderCellDef>User ID</th>
+                    <td mat-cell *matCellDef="let winner" [ngStyle]="{'background-color': '#e0f7fa'}">{{ winner.user_id }}</td>
+                  </ng-container>
+                  <tr mat-header-row *matHeaderRowDef="['user_id']"></tr>
+                  <tr mat-row *matRowDef="let row; columns: ['user_id'];"></tr>
+                </table>
+                <mat-paginator [pageSize]="5" [pageSizeOptions]="[5]" showFirstLastButtons></mat-paginator>
+              </mat-tab>
+            </mat-tab-group>
+          </mat-expansion-panel>
+        </mat-accordion>
+      </div>
+    </ng-container>
   
-    <!-- Lista de Salas -->
-    <mat-accordion>
-      <mat-expansion-panel *ngFor="let room of paginatedRooms[currentPage]" (opened)="onRoomClick(room.id)" [expanded]="selectedRoomId === room.id">
-        <mat-expansion-panel-header>
-          <mat-panel-title>
-            {{ room.codigo }}
-          </mat-panel-title>
-          <mat-panel-description>
-            Código de la Sala: {{ room.codigo }}
-          </mat-panel-description>
-        </mat-expansion-panel-header>
+    <ng-container *ngIf="viewMode === 'player'">
+      <!-- Mostrar salas ganadas -->
+      <div>
+        <h2>Salas Ganadas</h2>
+        <table mat-table [dataSource]="roomsWon" class="mat-elevation-z8">
+          <ng-container matColumnDef="codigo">
+            <th mat-header-cell *matHeaderCellDef> Código </th>
+            <td mat-cell *matCellDef="let room"> {{room.codigo}} </td>
+          </ng-container>
   
-        <mat-tab-group>
-          <mat-tab label="Jugadores">
-            <table mat-table [dataSource]="playersDataSource" class="mat-elevation-z8">
-              <ng-container matColumnDef="user_id">
-                <th mat-header-cell *matHeaderCellDef>User ID</th>
-                <td mat-cell *matCellDef="let player">{{ player.user_id }}</td>
-              </ng-container>
-              <tr mat-header-row *matHeaderRowDef="['user_id']"></tr>
-              <tr mat-row *matRowDef="let row; columns: ['user_id'];"></tr>
-            </table>
-            <mat-paginator [pageSize]="5" [pageSizeOptions]="[5]" showFirstLastButtons></mat-paginator>
-          </mat-tab>
-          <mat-tab label="Ganadores">
-            <table mat-table [dataSource]="winnersDataSource" class="mat-elevation-z8">
-              <ng-container matColumnDef="user_id">
-                <th mat-header-cell *matHeaderCellDef>User ID</th>
-                <td mat-cell *matCellDef="let winner" [ngStyle]="{'background-color': '#e0f7fa'}">{{ winner.user_id }}</td>
-              </ng-container>
-              <tr mat-header-row *matHeaderRowDef="['user_id']"></tr>
-              <tr mat-row *matRowDef="let row; columns: ['user_id'];"></tr>
-            </table>
-            <mat-paginator [pageSize]="5" [pageSizeOptions]="[5]" showFirstLastButtons></mat-paginator>
-          </mat-tab>
-        </mat-tab-group>
-      </mat-expansion-panel>
-    </mat-accordion>
+          <ng-container matColumnDef="ronda">
+            <th mat-header-cell *matHeaderCellDef> Ronda </th>
+            <td mat-cell *matCellDef="let room"> {{room.ronda}} </td>
+          </ng-container>
   
-
+          <ng-container matColumnDef="created_at">
+            <th mat-header-cell *matHeaderCellDef> Fecha </th>
+            <td mat-cell *matCellDef="let room"> {{room.created_at | date}} </td>
+          </ng-container>
+  
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+      </div>
+    </ng-container>
   </div>
   
-
-
-
-
-
-
-
-

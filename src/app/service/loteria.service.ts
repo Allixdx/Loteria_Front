@@ -93,16 +93,11 @@ export class LoteriaService {
     return this.http.get<any[]>(`${this.apiUrl}/winners/${roomId}`, {headers});
   }
 
-  getRoomsByPlayer(): Observable<any[]> {
+  getRoomsWonByUser(): Observable<any[]> {
     const token = this.cookieService.get('token');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    return this.http.get<any[]>(`${this.apiUrl}/rooms/player`, { headers });
+    return this.http.get<any[]>(`${this.apiUrl}/rooms-won`, { headers });
   }
 
-  getWinningRoomsByPlayer(): Observable<any[]> {
-    const token = this.cookieService.get('token');
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    return this.http.get<any[]>(`${this.apiUrl}/rooms/player/wins`, { headers });
-  }
 
 }

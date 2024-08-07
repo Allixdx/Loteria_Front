@@ -21,6 +21,11 @@ export class HistorialComponent implements OnInit {
   startDate: Date | null = null;
   endDate: Date | null = null;
   selectedRoomId: number | null = null; // Definir la propiedad aquí
+  roomsWon: any[] = []; // Añadir una propiedad para las salas ganadas
+  viewMode: 'main' | 'player' = 'main'; // Añadir propiedad para manejar la vista
+
+  // Definir las columnas a mostrar en la tabla
+  displayedColumns: string[] = ['codigo', 'ronda', 'created_at'];
 
   @ViewChild('playersPaginator', { static: true }) playersPaginator!: MatPaginator;
   @ViewChild('winnersPaginator', { static: true }) winnersPaginator!: MatPaginator;
@@ -28,6 +33,11 @@ export class HistorialComponent implements OnInit {
   constructor(private loteriaService: LoteriaService) {}
 
   ngOnInit(): void {
+    this.getRoomsByOrganizador();
+    this.getRoomsWon(); // Llamar al método para obtener las salas ganadas
+  }
+
+  getRoomsByOrganizador(): void {
     this.loteriaService.getRoomsByOrganizador().subscribe(
       (rooms) => {
         this.rooms = rooms;
@@ -36,6 +46,18 @@ export class HistorialComponent implements OnInit {
       },
       (error) => {
         console.error('Error fetching rooms:', error);
+      }
+    );
+  }
+
+  getRoomsWon(): void {
+    this.loteriaService.getRoomsWonByUser().subscribe(
+      (roomsWon) => {
+        this.roomsWon = roomsWon;
+        console.log('Salas ganadas:', this.roomsWon);
+      },
+      (error) => {
+        console.error('Error fetching rooms won:', error);
       }
     );
   }
@@ -103,5 +125,9 @@ export class HistorialComponent implements OnInit {
     }
 
     this.selectedRoomId = roomId; // Establecer el ID de la sala seleccionada
+  }
+
+  setViewMode(mode: 'main' | 'player'): void {
+    this.viewMode = mode;
   }
 }
