@@ -8,7 +8,7 @@ import { UnirseSalaComponent } from './components/unirse-sala/unirse-sala.compon
 import { LoteriaComponent } from './components/loteria/loteria.component';
 import { MainComponent } from './components/jugando/main/main.component';
 import { PlayerComponent } from './components/jugando/player/player.component';
-
+import { HistorialComponent } from './historial/historial.component';
 
 const routes: Routes = [
   { path: 'registro', component: RegisterComponent },
@@ -19,6 +19,7 @@ const routes: Routes = [
   { path: 'loteria', component: LoteriaComponent },
   { path: 'playing/main/:roomId', component: MainComponent },
   { path: 'playing/player/:roomId', component: PlayerComponent },
+  { path: 'historial', component: HistorialComponent },
 ];
 
 @NgModule({

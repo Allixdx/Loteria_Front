@@ -15,6 +15,13 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
 import { MatListModule } from '@angular/material/list';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatTableModule } from '@angular/material/table';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { FormsModule } from '@angular/forms';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 // Socket.io Module
 import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
@@ -25,7 +32,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { UnirseSalaComponent } from './components/unirse-sala/unirse-sala.component';
 import { LoteriaComponent } from './components/loteria/loteria.component';
 import { MainComponent } from './components/jugando/main/main.component';
-import { PlayerComponent } from './components/jugando/player/player.component'; 
+import { PlayerComponent } from './components/jugando/player/player.component';
+import { HistorialComponent } from './historial/historial.component'; 
 
 
 const socketConfig: SocketIoConfig = {
@@ -43,7 +51,8 @@ const socketConfig: SocketIoConfig = {
     UnirseSalaComponent,
     LoteriaComponent,
     MainComponent,
-    PlayerComponent
+    PlayerComponent,
+    HistorialComponent
   ],
   imports: [
     BrowserModule,
@@ -57,7 +66,14 @@ const socketConfig: SocketIoConfig = {
     MatCardModule,
     SocketIoModule.forRoot(socketConfig),
     HttpClientModule,
-    MatListModule
+    MatListModule,
+    MatExpansionModule,
+    MatTabsModule,
+    MatTableModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    FormsModule,
+    MatPaginatorModule
   ],
   providers: [CookieService],
   bootstrap: [AppComponent]

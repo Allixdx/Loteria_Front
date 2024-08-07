@@ -74,4 +74,35 @@ export class LoteriaService {
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     return this.http.get<any[]>(`${this.apiUrl}/cartas`, { headers });
   }
+
+  getRoomsByOrganizador(): Observable<any[]> {
+    const token = this.cookieService.get('token');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.get<any[]>(`${this.apiUrl}/rooms/createdby`, {headers});
+  }
+
+  getPlayersByRoom(roomId: number): Observable<any[]> {
+    const token = this.cookieService.get('token');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.get<any[]>(`${this.apiUrl}/players/${roomId}`, {headers});
+  }
+
+  getWinnersByRoom(roomId: number): Observable<any[]> {
+    const token = this.cookieService.get('token');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.get<any[]>(`${this.apiUrl}/winners/${roomId}`, {headers});
+  }
+
+  getRoomsByPlayer(): Observable<any[]> {
+    const token = this.cookieService.get('token');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.get<any[]>(`${this.apiUrl}/rooms/player`, { headers });
+  }
+
+  getWinningRoomsByPlayer(): Observable<any[]> {
+    const token = this.cookieService.get('token');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.get<any[]>(`${this.apiUrl}/rooms/player/wins`, { headers });
+  }
+
 }
