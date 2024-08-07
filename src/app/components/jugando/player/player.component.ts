@@ -146,6 +146,7 @@ export class PlayerComponent implements OnInit, OnDestroy {
     this.socketSubscriptions.push(
       this.socketService.onPartidaTerminada().subscribe((data: any) => {
         console.log('Partida terminada:', data);
+        alert(`Se te fue la oportunidad de cantar victoria :c`);
         this.handleVictory(data);
       })
     );

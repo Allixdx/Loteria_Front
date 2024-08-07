@@ -73,9 +73,9 @@ export class MainComponent implements OnInit, OnDestroy {
         }
       }
     } else {
-      console.log('No hay más cartas.');
+        this.terminarPartida(); // Llama al método para terminar la partida si no hubo victoria
+      
     }
-    console.log(this.cartasCantadas);
   }
 
   anterior(): void {
@@ -129,6 +129,12 @@ export class MainComponent implements OnInit, OnDestroy {
 
     // Redirige a CrearSalaComponent
     this.router.navigate(['/crearSala']);
-}
+  }
 
+  private terminarPartida(): void {
+    if (this.roomId !== null) {
+      this.socketService.emitTerminarPartida(this.roomId); // Emite un evento para terminar la partida
+      alert(`Nadie cantó victoria :c`);
+    }
+  }
 }
