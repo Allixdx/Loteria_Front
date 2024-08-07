@@ -96,7 +96,13 @@ export class CrearSalaComponent implements OnInit, OnDestroy {
 
     this.socketSubscription.add(
       this.socketService.onPartidaIniciada().subscribe(() => {
-        this.router.navigate(['/playing/main', this.roomId]);
+        if (this.roomId && this.codigoSala) {
+          this.router.navigate(['/playing/main', this.roomId], {
+            queryParams: { codigo: this.codigoSala }
+          });
+        } else {
+          console.error('ID de sala o código de sala no disponibles para redirección.');
+        }
       })
     );
 

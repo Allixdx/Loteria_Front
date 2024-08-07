@@ -21,6 +21,7 @@ export class MainComponent implements OnInit, OnDestroy {
   currentCarta: any;
   currentIndex: number = 0;
   roomId: number | null = null;
+  codigoSala: string | null = null; // Añadido para recibir el código de sala
   jugadores: Player[] = [];
   private socketSubscription: Subscription = new Subscription();
 
@@ -35,6 +36,11 @@ export class MainComponent implements OnInit, OnDestroy {
     this.route.paramMap.subscribe(params => {
       this.roomId = +params.get('roomId')!;
       console.log('Room ID:', this.roomId);
+    });
+
+    this.route.queryParamMap.subscribe(queryParams => {
+      this.codigoSala = queryParams.get('codigo');
+      console.log('Código de Sala:', this.codigoSala);
     });
 
     this.subscribeToSocketEvents();
@@ -119,9 +125,10 @@ export class MainComponent implements OnInit, OnDestroy {
 
   private handleVictory(data: any): void {
     // Almacena el estado en localStorage o sessionStorage
-    sessionStorage.setItem('roomData', JSON.stringify({ roomId: this.roomId, ...data }));
+    sessionStorage.setItem('roomData', JSON.stringify({ roomId: this.roomId, codigoSala: this.codigoSala, ...data }));
 
     // Redirige a CrearSalaComponent
     this.router.navigate(['/crearSala']);
-  }
+}
+
 }
