@@ -59,7 +59,7 @@
                 <table mat-table [dataSource]="winnersDataSource" class="mat-elevation-z8">
                   <ng-container matColumnDef="user_id">
                     <th mat-header-cell *matHeaderCellDef>User ID</th>
-                    <td mat-cell *matCellDef="let winner" [ngStyle]="{'background-color': '#e0f7fa'}">{{ winner.user_id }}</td>
+                    <td mat-cell *matCellDef="let winner" [ngStyle]="{'background-color': '#e0f7fa'}">{{ winner.user_email }}</td>
                   </ng-container>
                   <tr mat-header-row *matHeaderRowDef="['user_id']"></tr>
                   <tr mat-row *matRowDef="let row; columns: ['user_id'];"></tr>
