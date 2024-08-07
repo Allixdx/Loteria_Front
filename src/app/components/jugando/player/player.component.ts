@@ -14,6 +14,7 @@ export class PlayerComponent implements OnInit, OnDestroy {
   roomId: number | null = null;
   cartas: any[] = [];
   tablaCartas: any[][] = [];
+  codigoSala: string | null = null;
   cartasMarcadas: Set<number> = new Set(); // Almacena IDs de cartas marcadas
   private socketSubscriptions: Subscription[] = [];
   allCardsMarked: boolean = false; // Estado para habilitar el botón
@@ -29,6 +30,11 @@ export class PlayerComponent implements OnInit, OnDestroy {
     this.route.paramMap.subscribe(params => {
       this.roomId = +params.get('roomId')!;
       console.log('Room ID:', this.roomId);
+    });
+
+    this.route.queryParamMap.subscribe(queryParams => {
+      this.codigoSala = queryParams.get('codigo');
+      console.log('Código de Sala:', this.codigoSala);
     });
 
     this.loteriaService.getCards().subscribe(cartas => {
@@ -92,6 +98,13 @@ export class PlayerComponent implements OnInit, OnDestroy {
     this.allCardsMarked = this.cartasMarcadas.size === totalCards;
   }
 
+  private handleVictory(data: any): void {
+    // Almacena el estado en localStorage o sessionStorage
+    sessionStorage.setItem('roomData', JSON.stringify({ roomId: this.roomId, codigoSala: this.codigoSala, ...data }));
+
+    this.router.navigate(['/unirseSala']);
+  }
+
   celebrateVictory(): void {
     if (this.allCardsMarked) {
       console.log('Cartas marcadas para verificar:', Array.from(this.cartasMarcadas)); 
@@ -133,6 +146,7 @@ export class PlayerComponent implements OnInit, OnDestroy {
     this.socketSubscriptions.push(
       this.socketService.onPartidaTerminada().subscribe((data: any) => {
         console.log('Partida terminada:', data);
+        this.handleVictory(data);
       })
     );
 
@@ -145,6 +159,7 @@ export class PlayerComponent implements OnInit, OnDestroy {
     this.socketSubscriptions.push(
       this.socketService.onVictoriaAnunciada().subscribe((data: any) => {
         alert(`¡${data.userName} ha ganado la partida!`);
+        this.handleVictory(data);
       })
     );
   }
